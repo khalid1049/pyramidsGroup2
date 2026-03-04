@@ -1,0 +1,217 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<style>
+    body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('/images/eventBg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    backdrop-filter: blur(5px);
+    background: linear-gradient(120deg, rgba(236,103,38,0.25), rgba(236,103,38,0.1));
+    z-index:0;
+}
+
+/* Card */
+.login-card {
+    position: relative;
+    z-index:1;
+    max-width: 400px;
+    width: 100%;
+    padding: 40px 30px;
+    background: rgba(255,255,255,0.88);
+    border-radius: 25px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    text-align: center;
+    animation: fadeSlide 0.8s ease-in-out;
+}
+
+/* Animation entrée */
+@keyframes fadeSlide {
+    from {opacity:0; transform: translateY(-20px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* Logo */
+.login-logo {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+/* Titres */
+.login-card h2 {
+    color: #ec6726;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+/* Inputs style "float label" */
+.form-group {
+    position: relative;
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 12px 12px 12px;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    background: transparent;
+}
+
+.form-control:focus {
+    border-color: #ec6726;
+    box-shadow: 0 0 10px rgba(236,103,38,0.6);
+    outline: none;
+}
+
+/* Placeholder animé */
+.form-control::placeholder {
+    color: #aaa;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus::placeholder {
+    color: transparent;
+}
+
+/* Label flottant */
+.form-group label {
+    position: absolute;
+    left: 15px;
+    top: 12px;
+    color: #888;
+    font-size: 0.95rem;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus + label,
+.form-control:not(:placeholder-shown) + label {
+    top: -8px;
+    left: 10px;
+    font-size: 0.75rem;
+    color: #ec6726;
+    background: white;
+    padding: 0 4px;
+}
+
+/* Bouton */
+.btn-login {
+    background-color: #ec6726;
+    border: none;
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(236,103,38,0.4);
+}
+
+.btn-login:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(236,103,38,0.7);
+    filter: brightness(1.05);
+}
+
+/* Shake animation pour erreur */
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+.alert {
+    font-size: 0.9rem;
+    animation: shake 0.5s;
+    margin-bottom: 15px;
+}
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .login-card {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+    .login-logo {
+        width: 60px;
+    }
+    .btn-login {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 25px 15px;
+        border-radius: 15px;
+    }
+    .login-logo {
+        width: 50px;
+    }
+    .btn-login {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+<div class="login-card">
+    <!-- Logo -->
+    <img src="/images/logo.png" alt="Logo entreprise" class="login-logo">
+
+    <h2>Connectez-vous</h2>
+
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+<!--
+    {% if app.user %}
+        <div class="mb-3">
+            Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Déconnexion</a>
+        </div>
+    {% endif %} -->
+
+    <form method="post">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+        <div class="form-group">
+            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus placeholder=" ">
+            <label for="inputUsername" class="form-label">Nom d'utilisateur</label>
+        </div>
+
+        <div class="form-group">
+            <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required placeholder=" ">
+            <label for="inputPassword" class="form-label">Mot de passe</label>
+        </div>
+
+        <div class="remember-me">
+            <input type="checkbox" name="_remember_me" id="rememberMe">
+            <label for="rememberMe">Se souvenir de moi</label>
+        </div>
+
+        <button class="btn btn-login mt-3" type="submit">Se connecter</button>
+    </form>
+</div>
+{% endblock %}
