@@ -1,0 +1,19 @@
+span.logo-custom{
+    text-align: center;
+}
+
+aside.sidebar {
+    background: #f96806a1;
+}
+aside.content-top.ea-search-enabled {
+    background: #f96806a1;
+}
+a.menu-item-contents {
+    color: white !important;
+}
+
+#main-menu .menu .menu-item.active:not(.expanded) a{
+    color: var(--sidebar-menu-active-item-color);
+    background: #ffffff00;
+    color: var(--sidebar-menu-active-item-color) !important;
+}

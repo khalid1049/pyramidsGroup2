@@ -2,7 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Event;
+use App\Entity\Provider;
+use App\Entity\Stand;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -13,40 +18,43 @@ class DashboardController extends AbstractDashboardController
 {
     public function index(): Response
     {
-        // return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // 1.1) If you have enabled the "pretty URLs" feature:
-        // return $this->redirectToRoute('admin_user_index');
-        //
-        // 1.2) Same example but using the "ugly URLs" that were used in previous EasyAdmin versions:
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirectToRoute('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
+        
+       
         return $this->render('bundles/EasyAdminBundle/views/welcome.html.twig');
-            // return $this->render('admin/dashboard.html.twig');
 
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('PyramidsGroup');
+            ->setTitle('<img src="/images/logo.png" style="height:40px;">')
+            ->setFaviconPath('/images/logo.png')
+            ->disableUrlSignatures();
     }
 
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToCrud('Stand', 'fa-solid fa-store', Stand::class);
+        yield MenuItem::linkToCrud('Event', 'fa-solid fa-calendar-days', Event::class);
+        yield MenuItem::linkToCrud('User', 'fa-solid fa-user', User::class);
+        yield MenuItem::linkToCrud('Provider', 'fa-solid fa-briefcase', Provider::class);
+
+    }
+
+    public function configureAssets(): Assets
+    {   
+        return Assets::new()
+            
+            // ->addHtmlContentToHead('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">')
+
+            // ->addJsFile('Js/jquery.min.js')
+            // ->addJsFile('https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js')
+            // ->addJsFile('js/adminJs.js')
+            ->addCssFile('css/adminCss.css')
+            ;
+            
+       
+        
     }
 }
