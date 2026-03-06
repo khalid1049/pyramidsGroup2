@@ -1,19 +1,97 @@
-span.logo-custom{
-    text-align: center;
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+
+:root {
+    --primary-color: #ec6726;
+    --sidebar-light: #ec6726;
+    --sidebar-dark: #1e293b;
+    --dark-bg: #0f172a;
+    --dark-hover: #334155;
 }
 
+/* =========================
+   LOGO
+========================= */
+
+span.logo-custom {
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    font-size: 20px;
+    letter-spacing: 1px;
+}
+
+/* =========================
+   SIDEBAR LIGHT
+========================= */
+
 aside.sidebar {
-    background: #f96806a1;
+    background: var(--sidebar-light);
+    transition: all 0.3s ease;
 }
-aside.content-top.ea-search-enabled {
-    background: #f96806a1;
-}
+
 a.menu-item-contents {
+    color: white !important;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+/* Hover */
+#main-menu .menu .menu-item:hover a {
+    background: rgba(255,255,255,0.15);
+    border-radius: 8px;
+    padding-left: 10px;
+}
+
+/* Item actif */
+#main-menu .menu .menu-item.active a {
+    background: white;
+    color: var(--primary-color) !important;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+/* =========================
+   TOPBAR LIGHT
+========================= */
+
+aside.content-top.ea-search-enabled {
+    background: var(--sidebar-light);
+}
+
+/* =========================
+   MODE DARK
+========================= */
+
+body.ea-dark-scheme aside.sidebar {
+    background: var(--sidebar-dark);
+}
+
+body.ea-dark-scheme aside.content-top.ea-search-enabled {
+    background: var(--dark-bg);
+}
+
+body.ea-dark-scheme a.menu-item-contents {
+    color: #cbd5e1 !important;
+}
+
+/* Hover dark */
+body.ea-dark-scheme #main-menu .menu .menu-item:hover a {
+    background: var(--dark-hover);
+}
+
+/* Actif dark */
+body.ea-dark-scheme #main-menu .menu .menu-item.active a {
+    background: var(--primary-color);
     color: white !important;
 }
 
-#main-menu .menu .menu-item.active:not(.expanded) a{
-    color: var(--sidebar-menu-active-item-color);
-    background: #ffffff00;
-    color: var(--sidebar-menu-active-item-color) !important;
+/* Petit effet moderne icônes */
+#main-menu i {
+    transition: all 0.2s ease;
+}
+
+#main-menu .menu-item:hover i {
+    transform: scale(1.1);
 }
