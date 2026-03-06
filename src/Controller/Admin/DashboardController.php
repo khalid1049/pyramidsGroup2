@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Event;
+use App\Entity\Exhibitor;
 use App\Entity\Provider;
 use App\Entity\Stand;
 use App\Entity\User;
@@ -37,6 +38,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Stand', 'fa-solid fa-store', Stand::class);
         yield MenuItem::linkToCrud('Event', 'fa-solid fa-calendar-days', Event::class);
+        yield MenuItem::linkToCrud('Exhibitor','fa-solid fa-user-tie', Exhibitor::class);
         yield MenuItem::linkToCrud('User', 'fa-solid fa-user', User::class);
         yield MenuItem::linkToCrud('Provider', 'fa-solid fa-briefcase', Provider::class);
 
