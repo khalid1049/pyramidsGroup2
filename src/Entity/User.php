@@ -14,6 +14,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public const ROLE_ADMIN = 'ROLE_ADMIN';
     public const ROLE_SOUS_ADMIN = 'ROLE_SOUS_ADMIN';
     public const ROLE_PRESTATAIRE = 'ROLE_PRESTATAIRE';
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -34,6 +36,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    
+
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
@@ -48,6 +52,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $isVerified = null;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Provider $provider = null;
+
+    
+
+    public function __toString(): string
+    {
+        return $this->username ?? '';
+    }
+
+    public function __construct()
+    {   
+        $this->createdAt = new \DateTimeImmutable();
+        $this->isVerified = true;
+    }
 
     public function getId(): ?int
     {
@@ -178,4 +198,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getProvider(): ?Provider
+    {
+        return $this->provider;
+    }
+
+    public function setProvider(Provider $provider): static
+    {
+        // set the owning side of the relation if necessary
+        if ($provider->getUser() !== $this) {
+            $provider->setUser($this);
+        }
+
+        $this->provider = $provider;
+
+        return $this;
+    }
+
+  
 }
