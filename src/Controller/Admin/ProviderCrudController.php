@@ -8,6 +8,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -34,11 +35,15 @@ class ProviderCrudController extends AbstractCrudController
         return [
 
             IdField::new('id')->onlyOnIndex(),
+            FormField::addTab('User Informations'),
+
             TextField::new('user.username', 'Username'),
             TextField::new('user.firstName', 'First Name'),
             TextField::new('user.lastName', 'Last Name'),
             TextField::new('user.phone', 'Phone'),
             TextField::new('user.password','Password')->hideOnIndex()->hideOnDetail()->setFormTypeOption('attr', ['type' => 'password', 'placeholder'=>'set your new password']) ->setFormTypeOption('data', '')->setRequired(true),
+
+            FormField::addTab('Other Informations'),
             TextField::new('adresse')->setHtmlAttribute('placeholder', 'Enter your address'),
             TextField::new('activityType'),
             TextEditorField::new('serviceOffered'),
