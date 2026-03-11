@@ -36,8 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    
-
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
@@ -56,7 +54,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Provider $provider = null;
 
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Exhibitor $exhibitor = null;
 
+    
     public function __toString(): string
     {
         return $this->username ?? '';
@@ -215,6 +216,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
- 
+    public function getExhibitor(): ?Exhibitor
+    {
+        return $this->exhibitor;
+    }
+
+    public function setExhibitor(Exhibitor $exhibitor): static
+    {
+        // set the owning side of the relation if necessary
+        if ($exhibitor->getUser() !== $this) {
+            $exhibitor->setUser($this);
+        }
+
+        $this->exhibitor = $exhibitor;
+
+        return $this;
+    }
+
   
 }

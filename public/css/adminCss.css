@@ -95,3 +95,34 @@ body.ea-dark-scheme #main-menu .menu .menu-item.active a {
 #main-menu .menu-item:hover i {
     transform: scale(1.1);
 }
+.btn-primary, .btn-primary.btn.disabled, .btn-primary.btn{
+    background:#ec6726 !important;
+    border-color:#ec6726 !important;
+    color: #fff !important;
+    border-radius:8px !important;
+    font-weight:bolder;
+    box-shadow: 0 2px 4px rgba(236,103,38,0.4) !important;
+    transition: all 0.2s ease;
+}
+.btn-primary, .btn-primary.btn.disabled, .btn-primary.btn:hover{
+    background:#d85a1d !important;
+    border-color:#d85a1d !important;
+    transform: translateY(-1px);
+}
+.btn-primary, .btn-primary.btn.disabled, .btn-primary.btn:active{
+    background:#d85a1d !important;
+    border-color:#d85a1d !important;
+    transform: translateY(0px);
+}
+
+.form-control {
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.2s ease;
+}
+.form-control:focus {
+    border-color: #ec6726 !important;
+    box-shadow: 0 0 0 0.2rem rgba(236,103,38,0.25) !important;
+    outline: none;
+}
