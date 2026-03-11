@@ -39,7 +39,7 @@ class ProviderCrudController extends AbstractCrudController
             TextField::new('user.lastName', 'Last Name'),
             TextField::new('user.phone', 'Phone'),
             TextField::new('user.password','Password')->hideOnIndex()->hideOnDetail()->setFormTypeOption('attr', ['type' => 'password', 'placeholder'=>'set your new password']) ->setFormTypeOption('data', '')->setRequired(true),
-            TextField::new('adresse'),
+            TextField::new('adresse')->setHtmlAttribute('placeholder', 'Enter your address'),
             TextField::new('activityType'),
             TextEditorField::new('serviceOffered'),
             

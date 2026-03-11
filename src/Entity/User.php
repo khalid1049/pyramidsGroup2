@@ -56,7 +56,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Provider $provider = null;
 
-    
 
     public function __toString(): string
     {
@@ -216,5 +215,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+ 
   
 }
