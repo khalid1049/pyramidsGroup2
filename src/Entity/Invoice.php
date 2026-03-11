@@ -19,6 +19,10 @@ class Invoice
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\OneToOne(inversedBy: 'invoice', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Exhibitor $exhibitor = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -44,6 +48,18 @@ class Invoice
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getExhibitor(): ?Exhibitor
+    {
+        return $this->exhibitor;
+    }
+
+    public function setExhibitor(Exhibitor $exhibitor): static
+    {
+        $this->exhibitor = $exhibitor;
 
         return $this;
     }

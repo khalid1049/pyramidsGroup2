@@ -25,6 +25,19 @@ class Stand
     #[ORM\Column (nullable: true)]
     private ?bool $status = null;
 
+    #[ORM\OneToOne(inversedBy: 'stand', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Exhibitor $exhibitor = null;
+
+    // public function __construct()
+    // {   
+    //     $this->exhibitor = new Exhibitor();
+    // }
+    public function __toString(): string
+    {
+        return 'Stand '.$this->number;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +87,18 @@ class Stand
     public function setStatus(bool $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getExhibitor(): ?Exhibitor
+    {
+        return $this->exhibitor;
+    }
+
+    public function setExhibitor(Exhibitor $exhibitor): static
+    {
+        $this->exhibitor = $exhibitor;
 
         return $this;
     }

@@ -36,8 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    
-
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
@@ -60,7 +58,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Exhibitor $exhibitor = null;
 
     
-
     public function __toString(): string
     {
         return $this->username ?? '';

@@ -35,9 +35,21 @@ class Exhibitor
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\OneToOne(mappedBy: 'exhibitor', cascade: ['persist', 'remove'])]
+    private ?Invoice $invoice = null;
+
+    #[ORM\OneToOne(mappedBy: 'exhibitor', cascade: ['persist', 'remove'])]
+    private ?Stand $stand = null;
+
     public function __construct()
     {   
         $this->user = new User();
+        $this->stand = new Stand();
+    }
+
+     public function __toString(): string
+    {
+        return $this->CompanyName ?? '';
     }
 
     public function getId(): ?int
@@ -125,6 +137,40 @@ class Exhibitor
     public function setUser(User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getInvoice(): ?Invoice
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(Invoice $invoice): static
+    {
+        // set the owning side of the relation if necessary
+        if ($invoice->getExhibitor() !== $this) {
+            $invoice->setExhibitor($this);
+        }
+
+        $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    public function getStand(): ?Stand
+    {
+        return $this->stand;
+    }
+
+    public function setStand(Stand $stand): static
+    {
+        // set the owning side of the relation if necessary
+        if ($stand->getExhibitor() !== $this) {
+            $stand->setExhibitor($this);
+        }
+
+        $this->stand = $stand;
 
         return $this;
     }
