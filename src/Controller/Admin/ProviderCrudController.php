@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -37,29 +38,67 @@ class ProviderCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             FormField::addTab('User Informations'),
 
-            TextField::new('user.username', 'Username'),
-            TextField::new('user.firstName', 'First Name'),
-            TextField::new('user.lastName', 'Last Name'),
-            TextField::new('user.phone', 'Phone'),
-            TextField::new('user.password','Password')->hideOnIndex()->hideOnDetail()->setFormTypeOption('attr', ['type' => 'password', 'placeholder'=>'set your new password']) ->setFormTypeOption('data', '')->setRequired(true),
+            
+            TextField::new('user.firstName', 'First Name')
+                    ->setLabel('<i class="fa-solid fa-user adding"></i> First Name')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the first name of provider',
+
+            ]),
+            TextField::new('user.lastName', 'Last Name')
+                    ->setLabel('<i class="fa-solid fa-user adding"></i> Last Name')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the last name of provider'
+            ]),
+            TextField::new('user.phone', 'Phone')
+                    ->setLabel('<i class="fa-solid fa-phone adding"></i> Phone')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the number phone of provider'
+            ]),
+            TextField::new('user.username', 'Username')
+                    ->setLabel('<i class="fa-solid fa-circle-user adding"></i> Username')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the user name of provider'
+            ]),
+            TextField::new('user.password','Password')->hideOnIndex()->hideOnDetail()
+                    ->setLabel('<i class="fa-solid fa-lock adding"></i> Password')
+                    ->setFormTypeOption('attr', ['type' => 'password', 'placeholder'=>'Enter the password of provider'])
+                     ->setFormTypeOption('data', '')->setRequired(true),
 
             FormField::addTab('Other Informations'),
-            TextField::new('adresse')->setHtmlAttribute('placeholder', 'Enter your address'),
-            TextField::new('activityType'),
-            TextEditorField::new('serviceOffered'),
+            TextField::new('adresse')
+                    ->setLabel('<i class="fa-solid fa-address-card adding"></i> Adress')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the adress of provider'
+            ]),
+            TextField::new('activityType')
+                    ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Type of activity')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the provider\'s type of activity'
+            ]),
+            TextareaField::new('serviceOffered')
+                        ->setLabel('<i class="fa-solid fa-handshake adding"></i> Service offered')
+                        ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the provider\'s service'
+            ]),
             
 
         ];
     }
     
     public function configureActions(Actions $actions): Actions
-    {
-        return $actions
-            // ...
-            ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            // ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
-        ;
-    }
+{
+    return $actions
+        ->add(Crud::PAGE_INDEX, Action::DETAIL)
+        ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
+            return $action
+                ->setIcon('fa-solid fa-pen');
+        })
+        ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
+            return $action
+                ->setIcon('fa-solid fa-arrow-left');
+        });
+}
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
@@ -73,7 +112,7 @@ class ProviderCrudController extends AbstractCrudController
         );
         
         $user->setPassword($hash);
-      
+
         $entityManager->persist($entityInstance);
         $entityManager->flush();
     }
