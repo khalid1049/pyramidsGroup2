@@ -25,14 +25,20 @@ class Stand
     #[ORM\Column (nullable: true)]
     private ?bool $status = null;
 
-    #[ORM\OneToOne(inversedBy: 'stand', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'stands')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Exhibitor $exhibitor = null;
 
-    // public function __construct()
-    // {   
-    //     $this->exhibitor = new Exhibitor();
-    // }
+    #[ORM\Column(nullable: true)]
+    private ?float $price = null;
+
+    
+
+    public function __construct()
+    {   
+        // $this->exhibitor = new Exhibitor();
+        $this->number = $this->generateStandNumber();
+    }
     public function __toString(): string
     {
         return 'Stand '.$this->number;
@@ -96,9 +102,27 @@ class Stand
         return $this->exhibitor;
     }
 
-    public function setExhibitor(Exhibitor $exhibitor): static
+    public function setExhibitor(?Exhibitor $exhibitor): static
     {
         $this->exhibitor = $exhibitor;
+
+        return $this;
+    }
+
+    protected function generateStandNumber(): string
+    {
+        // Générer un numéro de stand unique (par exemple, en utilisant un UUID ou une combinaison de lettres et de chiffres)
+        return uniqid('STAND-');
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?float $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }

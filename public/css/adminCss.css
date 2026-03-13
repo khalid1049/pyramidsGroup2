@@ -126,3 +126,7 @@ body.ea-dark-scheme #main-menu .menu .menu-item.active a {
     box-shadow: 0 0 0 0.2rem rgba(236,103,38,0.25) !important;
     outline: none;
 }
+
+.align-boolean .form-check {
+    margin-top: 30px;
+}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExhibitorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExhibitorRepository::class)]
@@ -31,23 +33,34 @@ class Exhibitor
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\OneToOne(inversedBy: 'exhibitor', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
-
     #[ORM\OneToOne(mappedBy: 'exhibitor', cascade: ['persist', 'remove'])]
     private ?Invoice $invoice = null;
 
-    #[ORM\OneToOne(mappedBy: 'exhibitor', cascade: ['persist', 'remove'])]
-    private ?Stand $stand = null;
+
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $lastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
+    /**
+     * @var Collection<int, Stand>
+     */
+    #[ORM\OneToMany(targetEntity: Stand::class, mappedBy: 'exhibitor', orphanRemoval: true)]
+    private Collection $stands;
 
     public function __construct()
     {   
-        $this->user = new User();
-        $this->stand = new Stand();
+        // $this->user = new User();
+        // $this->stand = new Stand();
+        $this->stands = new ArrayCollection();
     }
 
-     public function __toString(): string
+    public function __toString(): string
     {
         return $this->CompanyName ?? '';
     }
@@ -129,17 +142,7 @@ class Exhibitor
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(User $user): static
-    {
-        $this->user = $user;
-
-        return $this;
-    }
+    
 
     public function getInvoice(): ?Invoice
     {
@@ -158,19 +161,70 @@ class Exhibitor
         return $this;
     }
 
-    public function getStand(): ?Stand
+    
+
+    public function getFirstName(): ?string
     {
-        return $this->stand;
+        return $this->firstName;
     }
 
-    public function setStand(Stand $stand): static
+    public function setFirstName(?string $firstName): static
     {
-        // set the owning side of the relation if necessary
-        if ($stand->getExhibitor() !== $this) {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+
+    public function setLastName(?string $lastName): static
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stand>
+     */
+    public function getStands(): Collection
+    {
+        return $this->stands;
+    }
+
+    public function addStand(Stand $stand): static
+    {
+        if (!$this->stands->contains($stand)) {
+            $this->stands->add($stand);
             $stand->setExhibitor($this);
         }
 
-        $this->stand = $stand;
+        return $this;
+    }
+
+    public function removeStand(Stand $stand): static
+    {
+        if ($this->stands->removeElement($stand)) {
+            // set the owning side to null (unless already changed)
+            if ($stand->getExhibitor() === $this) {
+                $stand->setExhibitor(null);
+            }
+        }
 
         return $this;
     }
