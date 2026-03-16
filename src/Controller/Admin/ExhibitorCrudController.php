@@ -109,20 +109,20 @@ class ExhibitorCrudController extends AbstractCrudController
                 'placeholder' => 'Enter email of exhibitor'
             ]),
 
-            FieldFormField::addTab('Stand Informations'),
-            FieldFormField::addRow(),
+            // FieldFormField::addTab('Stand Informations'),
+            // FieldFormField::addRow(),
 
-            FieldFormField::addColumn('col-lg-4 col-xl-4'),
-            TextField::new('stand.surface')
-                    ->setLabel('numéro de stand')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter le numéro de stand d\'exposant'
-            ]),
-            TextField::new('stand.number')
-                    ->setLabel('numéro de stand')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter le numéro de stand d\'exposant'
-            ]),
+            // FieldFormField::addColumn('col-lg-4 col-xl-4'),
+            // TextField::new('stand.surface')
+            //         ->setLabel('numéro de stand')
+            //         ->setFormTypeOption('attr', [
+            //     'placeholder' => 'Enter le numéro de stand d\'exposant'
+            // ]),
+            // TextField::new('stand.number')
+            //         ->setLabel('numéro de stand')
+            //         ->setFormTypeOption('attr', [
+            //     'placeholder' => 'Enter le numéro de stand d\'exposant'
+            // ]),
 
             NumberField::new('stand.surface')
                     ->setLabel('surface de stand')
@@ -139,11 +139,11 @@ class ExhibitorCrudController extends AbstractCrudController
                 'placeholder' => 'Enter le type de stand d\'exposant'
             ]),
 
-            BooleanField::new('stand.status')
-                    ->setLabel('status de stand')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter le status de stand d\'exposant'
-            ]),
+            // BooleanField::new('stand.status')
+            //         ->setLabel('status de stand')
+            //         ->setFormTypeOption('attr', [
+            //     'placeholder' => 'Enter le status de stand d\'exposant'
+            // ]),
         ];
     }
 
