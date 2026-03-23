@@ -8,6 +8,7 @@
     --sidebar-dark: #1e293b;
     --dark-bg: #0f172a;
     --dark-hover: #334155;
+    --link-color:#ec6726;
 }
 
 /* =========================
@@ -95,6 +96,16 @@ body.ea-dark-scheme #main-menu .menu .menu-item.active a {
 #main-menu .menu-item:hover i {
     transform: scale(1.1);
 }
+.btn{
+    box-shadow: 0 2px 4px rgba(34,13,3,0.23) !important;
+    transition: all 0.2s ease;
+}
+.btn:hover{
+    transform: translateY(-1px);
+}
+.btn:active{
+    transform: translateY(0px);
+}
 .btn-primary, .btn-primary.btn.disabled, .btn-primary.btn{
     background:#ec6726 !important;
     border-color:#ec6726 !important;
@@ -114,6 +125,33 @@ body.ea-dark-scheme #main-menu .menu .menu-item.active a {
     border-color:#d85a1d !important;
     transform: translateY(0px);
 }
+.btn-danger, 
+.btn-danger.btn.disabled, 
+.btn-danger.btn {
+    background: #dc3545 !important;      /* rouge principal */
+    border-color: #dc3545 !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    font-weight: bolder;
+    box-shadow: 0 2px 4px rgba(220,53,69,0.4) !important;
+    transition: all 0.2s ease;
+}
+
+.btn-danger, 
+.btn-danger.btn.disabled, 
+.btn-danger.btn:hover {
+    background: #b02a37 !important;       /* rouge hover */
+    border-color: #b02a37 !important;
+    transform: translateY(-1px);
+}
+
+.btn-danger, 
+.btn-danger.btn.disabled, 
+.btn-danger.btn:active {
+    background: #b02a37  !important;       /* rouge actif */
+    border-color: #b02a37 !important;
+    transform: translateY(0px);
+}
 
 .form-control {
     border: 1px solid #cbd5e1 !important;
@@ -126,7 +164,62 @@ body.ea-dark-scheme #main-menu .menu .menu-item.active a {
     box-shadow: 0 0 0 0.2rem rgba(236,103,38,0.25) !important;
     outline: none;
 }
+/* Onglets non-actifs */
+.form-tabs-tablist .nav-tabs .nav-link:not(.active) {
+    color: #f69c6e !important 
+}
 
+/* Onglet actif */
+.form-tabs-tablist .nav-tabs .nav-link.active {
+    color: #ec6726 !important;
+
+}
+
+/* Hover pour tous les onglets */
+.form-tabs-tablist .nav-tabs .nav-link:hover {
+    color: #d85a1d !important;
+    
+}
+.adding::before{
+    color: #ec6726
+}
+.content-header-title .title{
+    color: #64748b !important;
+}
+
+.ea-detail .tab-content .tab-pane {
+    background: #cccccc45;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+    max-width: 700px;
+    margin: 30px auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.ea-detail .tab-content .tab-pane:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+.ea-detail .field-group {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background: #f9f9f9; 
+    transition: background 0.2s ease;
+}
+.ea-detail .field-group:hover {
+    background: #fff3f0; 
+}
+.ea-detail .field-group:last-child {
+    border-bottom: none;
+}
+
+.ea-detail .field-group:last-child {
+    border-bottom: none;
+}
 .align-boolean .form-check {
     margin-top: 30px;
 }
