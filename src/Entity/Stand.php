@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StandRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StandRepository::class)]
@@ -32,12 +34,19 @@ class Stand
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
 
+    /**
+     * @var Collection<int, CustomerRequest>
+     */
+    #[ORM\OneToMany(targetEntity: CustomerRequest::class, mappedBy: 'stand', orphanRemoval: true)]
+    private Collection $customerRequests;
+
     
 
     public function __construct()
     {   
         // $this->exhibitor = new Exhibitor();
         $this->number = $this->generateStandNumber();
+        $this->customerRequests = new ArrayCollection();
     }
     public function __toString(): string
     {
@@ -123,6 +132,36 @@ class Stand
     public function setPrice(?float $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomerRequest>
+     */
+    public function getCustomerRequests(): Collection
+    {
+        return $this->customerRequests;
+    }
+
+    public function addCustomerRequest(CustomerRequest $customerRequest): static
+    {
+        if (!$this->customerRequests->contains($customerRequest)) {
+            $this->customerRequests->add($customerRequest);
+            $customerRequest->setStand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerRequest(CustomerRequest $customerRequest): static
+    {
+        if ($this->customerRequests->removeElement($customerRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($customerRequest->getStand() === $this) {
+                $customerRequest->setStand(null);
+            }
+        }
 
         return $this;
     }

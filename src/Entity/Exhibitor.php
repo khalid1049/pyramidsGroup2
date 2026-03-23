@@ -53,11 +53,21 @@ class Exhibitor
     #[ORM\OneToMany(targetEntity: Stand::class, mappedBy: 'exhibitor', orphanRemoval: true)]
     private Collection $stands;
 
+    /**
+     * @var Collection<int, CustomerRequest>
+     */
+    #[ORM\OneToMany(targetEntity: CustomerRequest::class, mappedBy: 'exhibitor', orphanRemoval: true)]
+    private Collection $customerRequests;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $facia_name = null;
+
     public function __construct()
     {   
         // $this->user = new User();
         // $this->stand = new Stand();
         $this->stands = new ArrayCollection();
+        $this->customerRequests = new ArrayCollection();
     }
 
     public function __toString(): string
@@ -225,6 +235,48 @@ class Exhibitor
                 $stand->setExhibitor(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomerRequest>
+     */
+    public function getCustomerRequests(): Collection
+    {
+        return $this->customerRequests;
+    }
+
+    public function addCustomerRequest(CustomerRequest $customerRequest): static
+    {
+        if (!$this->customerRequests->contains($customerRequest)) {
+            $this->customerRequests->add($customerRequest);
+            $customerRequest->setExhibitor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerRequest(CustomerRequest $customerRequest): static
+    {
+        if ($this->customerRequests->removeElement($customerRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($customerRequest->getExhibitor() === $this) {
+                $customerRequest->setExhibitor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getFaciaName(): ?string
+    {
+        return $this->facia_name;
+    }
+
+    public function setFaciaName(?string $facia_name): static
+    {
+        $this->facia_name = $facia_name;
 
         return $this;
     }
