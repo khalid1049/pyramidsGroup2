@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProviderRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,11 +29,24 @@ class Provider
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    /**
+     * @var Collection<int, CustomerRequest>
+     */
+    #[ORM\OneToMany(targetEntity: CustomerRequest::class, mappedBy: 'provider')]
+    private Collection $customerRequests;
+
     public function __construct()
     {   
         $this->user = new User();
+        $this->customerRequests = new ArrayCollection();
     }
-  
+    
+     public function __toString(): string
+    {
+        return $this->user ?? '';
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -81,6 +96,36 @@ class Provider
     public function setUser(User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomerRequest>
+     */
+    public function getCustomerRequests(): Collection
+    {
+        return $this->customerRequests;
+    }
+
+    public function addCustomerRequest(CustomerRequest $customerRequest): static
+    {
+        if (!$this->customerRequests->contains($customerRequest)) {
+            $this->customerRequests->add($customerRequest);
+            $customerRequest->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerRequest(CustomerRequest $customerRequest): static
+    {
+        if ($this->customerRequests->removeElement($customerRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($customerRequest->getProvider() === $this) {
+                $customerRequest->setProvider(null);
+            }
+        }
 
         return $this;
     }
