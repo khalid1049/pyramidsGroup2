@@ -44,30 +44,22 @@ class ExhibitorCrudController extends AbstractCrudController
             FieldFormField::addRow(),
             
             FieldFormField::addColumn('col-lg-6 col-xl-6'),
-            TextField::new('user.firstName', 'First Name')
+            TextField::new('firstName', 'First Name')
                     ->setLabel('<i class="fa-solid fa-user adding"></i> First Name')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the first name of exhibitor'
             ]),
-            TextField::new('user.lastName', 'Last Name')
+            TextField::new('lastName', 'Last Name')
                     ->setLabel('<i class="fa-solid fa-user adding"></i> Last Name')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the last name of exhibitor'
             ]),
-            TelephoneField::new('user.phone', 'Phone')
+            TelephoneField::new('phone', 'Phone')
                     ->setLabel('<i class="fa-solid fa-phone adding"></i> Phone')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the phone of exhibitor'
             ]),
-            TextField::new('user.username', 'Username')
-                    ->setLabel('<i class="fa-solid fa-circle-user adding"></i> Username')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter the user name of exhibitor'
-            ]),
-            TextField::new('user.password','Password')->hideOnIndex()->hideOnDetail()
-                    ->setLabel('<i class="fa-solid fa-lock adding"></i> Password')
-                    ->setFormTypeOption('attr', ['type' => 'password', 'placeholder'=>'Enter the password of exhibitor'])
-                    ->setFormTypeOption('data', '')->setRequired(true),
+            
 
 
             FieldFormField::addTab('company Informations'),
@@ -124,20 +116,20 @@ class ExhibitorCrudController extends AbstractCrudController
             //     'placeholder' => 'Enter le numéro de stand d\'exposant'
             // ]),
 
-            NumberField::new('stand.surface')
-                    ->setLabel('surface de stand')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter la surface de stand d\'exposant'
-            ]),
-            ChoiceField::new('stand.type')
-                    ->setLabel('type de stand')
-                    ->setChoices([
-                        'Modulaire' => 'Modulaire',
-                        'Personnalisé' => 'Personnalisé',
-                    ])
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter le type de stand d\'exposant'
-            ]),
+         //   NumberField::new('stand.surface')
+           //         ->setLabel('surface de stand')
+          //          ->setFormTypeOption('attr', [
+          //      'placeholder' => 'Enter la surface de stand d\'exposant'
+          //  ]),
+          //  ChoiceField::new('stand.type')
+          //          ->setLabel('type de stand')
+          //          ->setChoices([
+         //               'Modulaire' => 'Modulaire',
+           //             'Personnalisé' => 'Personnalisé',
+            //        ])
+           //         ->setFormTypeOption('attr', [
+           //     'placeholder' => 'Enter le type de stand d\'exposant'
+           // ]),
 
             // BooleanField::new('stand.status')
             //         ->setLabel('status de stand')
