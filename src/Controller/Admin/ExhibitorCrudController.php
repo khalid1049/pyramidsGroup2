@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Exhibitor;
 use App\Entity\Stand;
+// use App\Entity\Stand;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -31,7 +32,7 @@ class ExhibitorCrudController extends AbstractCrudController
         return Exhibitor::class;
     }
 
-    
+  
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -48,8 +49,17 @@ class ExhibitorCrudController extends AbstractCrudController
             TelephoneField::new('phone', 'Phone')
                     ->setLabel('Phone')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter le numéro portable d\'exposant'
+                'placeholder' => 'Enter the phone of exhibitor'
             ]),
+            TextField::new('user.username', 'Username')
+                    ->setLabel('<i class="fa-solid fa-circle-user adding"></i> Username')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the user name of exhibitor'
+            ]),
+            TextField::new('user.password','Password')->hideOnIndex()->hideOnDetail()
+                    ->setLabel('<i class="fa-solid fa-lock adding"></i> Password')
+                    ->setFormTypeOption('attr', ['type' => 'password', 'placeholder'=>'Enter the password of exhibitor'])
+                    ->setFormTypeOption('data', '')->setRequired(true),
 
 
             FieldFormField::addTab('company Informations'),
@@ -57,9 +67,9 @@ class ExhibitorCrudController extends AbstractCrudController
             FieldFormField::addColumn('col-lg-4 col-xl-4'),
 
             TextField::new('CompanyName')
-                    ->setLabel('entreprise')
+                    ->setLabel('<i class="fa-solid fa-building adding"></i> Company')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter l\'entreprise d\'exposant'
+                'placeholder' => 'Enter the company of exhibitor'
             ]),
             TextField::new('facia_name')
                     ->setLabel('facia_name')
@@ -67,33 +77,33 @@ class ExhibitorCrudController extends AbstractCrudController
                 'placeholder' => 'Enter l\'entreprise d\'exposant'
             ]),
             CountryField::new('country')
-                    ->setLabel('pays')
+                    ->setLabel('<i class="fa-solid fa-globe adding"></i> Country')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter le pays d\'exposant'
+                'placeholder' => 'Enter the country of exhibitor'
             ]),
             FieldFormField::addColumn('col-lg-4 col-xl-4'),
 
             TextField::new('sectorActivity')
-                    ->setLabel('secteur d\'activité')
+                    ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Sector of activity')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter le secteur d\'activité d\'exposant'
+                'placeholder' => 'Enter the exhibitor\'s sector of activity'
             ]),
             TextField::new('productDisplay')
-                    ->setLabel('produit')
+                    ->setLabel('<i class="fa-solid fa-box adding"></i> Product')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter le produit d\'exposant'
+                'placeholder' => 'Enter exhibitor\'s product'
             ]),
             FieldFormField::addColumn('col-lg-4 col-xl-4'),
 
             TextField::new('adresse')
-                    ->setLabel('adresse')
+                    ->setLabel('<i class="fa-solid fa-address-card adding"></i> Adress')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter adresse d\'exposant'
+                'placeholder' => 'Enter the adress of exhibitor'
             ]),
             TextField::new('email')
-                    ->setLabel('email')
+                    ->setLabel('<i class="fa-solid fa-at adding"></i> Email')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter email d\'exposant'
+                'placeholder' => 'Enter email of exhibitor'
             ]),
 
        
