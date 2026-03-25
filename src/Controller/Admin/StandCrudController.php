@@ -2,7 +2,12 @@
 
 namespace App\Controller\Admin;
 
+namespace App\Controller\Admin;
+
 use App\Entity\Stand;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
@@ -31,16 +36,65 @@ class StandCrudController extends AbstractCrudController
             FieldFormField::addRow(),
             // FieldFormField::addColumn('col-lg-4 col-xl-4'),
             IdField::new('id')->onlyOnIndex(),
-            TextField::new('Number')->setDisabled(true)->setColumns(4),
-            NumberField::new('Surface')->setColumns(4),
-            ChoiceField::new('Type')->setChoices([
+            TextField::new('Number')
+                    ->setDisabled(true)
+                    ->setColumns(4)
+                    ->setLabel('<i class="fa-solid fa-hashtag adding"></i> Number')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the number of stand'
+            ]),
+            NumberField::new('Surface')
+                    ->setColumns(4)
+                    ->setLabel('<i class="fa-solid fa-ruler-combined adding"></i> Surface')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the Surface of stand'
+            ]),
+            ChoiceField::new('Type')
+                    ->setColumns(4)
+                    ->setChoices([
                 'Modulaire' => 'Modulaire',
                 'Personnalisé' => 'Personnalisé',
-            ])->setColumns(4),
-            BooleanField::new('status', 'payement status')->renderAsSwitch(false)->setColumns(4)->addCssClass('align-boolean'),
-            MoneyField::new('price')->setCurrency('MAD')->setColumns(4),
-            AssociationField::new('exhibitor', 'Exhibitor')->setColumns(4),
+            ])
+                    ->setLabel('<i class="fa-solid fa-shop adding"></i> Type')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Choose the type of stand'
+            ]),
+            BooleanField::new('status', 'payement status')
+                    ->renderAsSwitch(false)
+                    ->setColumns(4)
+                    ->addCssClass('align-boolean')
+                    ->setLabel('<i class="fa-solid fa-credit-card adding"></i> Payement status')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the type of stand'
+            ]),
+            MoneyField::new('price')
+                    ->setCurrency('MAD')
+                    ->setColumns(4)
+                    ->setLabel('<i class="fa-solid fa-money-bill-wave adding"></i> Price')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the price of stand'
+            ]),
+            AssociationField::new('exhibitor', 'Exhibitor')
+                    ->setColumns(4)
+                    ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Choose the Exhibitor'
+            ]),
         ];
+    }
+    public function configureActions(Actions $actions): Actions
+    {
+        return $actions
+            
+            ->add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
+            return $action
+                ->setIcon('fa-solid fa-pen');
+        })
+        ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
+            return $action
+                ->setIcon('fa-solid fa-arrow-left');
+        });
     }
     
 }

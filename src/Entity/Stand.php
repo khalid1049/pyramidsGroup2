@@ -18,8 +18,6 @@ class Stand
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $number = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $surface = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
@@ -28,7 +26,7 @@ class Stand
     private ?bool $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'stands')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Exhibitor $exhibitor = null;
 
     #[ORM\Column(nullable: true)]
@@ -39,6 +37,12 @@ class Stand
      */
     #[ORM\OneToMany(targetEntity: CustomerRequest::class, mappedBy: 'stand', orphanRemoval: true)]
     private Collection $customerRequests;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $size = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $open_side = null;
 
     
 
@@ -70,17 +74,7 @@ class Stand
         return $this;
     }
 
-    public function getSurface(): ?string
-    {
-        return $this->surface;
-    }
-
-    public function setSurface(?string $surface): static
-    {
-        $this->surface = $surface;
-
-        return $this;
-    }
+   
 
     public function getType(): ?string
     {
@@ -162,6 +156,30 @@ class Stand
                 $customerRequest->setStand(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    public function setSize(?string $size): static
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getOpenSide(): ?int
+    {
+        return $this->open_side;
+    }
+
+    public function setOpenSide(?int $open_side): static
+    {
+        $this->open_side = $open_side;
 
         return $this;
     }
