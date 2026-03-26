@@ -3,36 +3,36 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Exhibitor;
+use App\Entity\Stand;
+// use App\Entity\Stand;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CountryField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField as FieldFormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TelephoneField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class ExhibitorCrudController extends AbstractCrudController
 {
-    private $hashPassword;
+    private $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+   
     public static function getEntityFqcn(): string
     {
         return Exhibitor::class;
     }
 
-    public function __construct(UserPasswordHasherInterface $hashPassword)
-    {
-        $this->hashPassword = $hashPassword;        
-    }
+  
     public function configureFields(string $pageName): iterable
     {
         return [
@@ -44,18 +44,10 @@ class ExhibitorCrudController extends AbstractCrudController
             FieldFormField::addRow(),
             
             FieldFormField::addColumn('col-lg-6 col-xl-6'),
-            TextField::new('firstName', 'First Name')
-                    ->setLabel('<i class="fa-solid fa-user adding"></i> First Name')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter the first name of exhibitor'
-            ]),
-            TextField::new('lastName', 'Last Name')
-                    ->setLabel('<i class="fa-solid fa-user adding"></i> Last Name')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter the last name of exhibitor'
-            ]),
+          
+           
             TelephoneField::new('phone', 'Phone')
-                    ->setLabel('<i class="fa-solid fa-phone adding"></i> Phone')
+                    ->setLabel('Phone')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the phone of exhibitor'
             ]),
@@ -70,6 +62,11 @@ class ExhibitorCrudController extends AbstractCrudController
                     ->setLabel('<i class="fa-solid fa-building adding"></i> Company')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the company of exhibitor'
+            ]),
+            TextField::new('facia_name')
+                    ->setLabel('facia_name')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter l\'entreprise d\'exposant'
             ]),
             CountryField::new('country')
                     ->setLabel('<i class="fa-solid fa-globe adding"></i> Country')
@@ -101,72 +98,79 @@ class ExhibitorCrudController extends AbstractCrudController
                 'placeholder' => 'Enter email of exhibitor'
             ]),
 
-            // FieldFormField::addTab('Stand Informations'),
-            // FieldFormField::addRow(),
-
-            // FieldFormField::addColumn('col-lg-4 col-xl-4'),
-            // TextField::new('stand.surface')
-            //         ->setLabel('numéro de stand')
-            //         ->setFormTypeOption('attr', [
-            //     'placeholder' => 'Enter le numéro de stand d\'exposant'
-            // ]),
-            // TextField::new('stand.number')
-            //         ->setLabel('numéro de stand')
-            //         ->setFormTypeOption('attr', [
-            //     'placeholder' => 'Enter le numéro de stand d\'exposant'
-            // ]),
-
-         //   NumberField::new('stand.surface')
-           //         ->setLabel('surface de stand')
-          //          ->setFormTypeOption('attr', [
-          //      'placeholder' => 'Enter la surface de stand d\'exposant'
-          //  ]),
-          //  ChoiceField::new('stand.type')
-          //          ->setLabel('type de stand')
-          //          ->setChoices([
-         //               'Modulaire' => 'Modulaire',
-           //             'Personnalisé' => 'Personnalisé',
-            //        ])
-           //         ->setFormTypeOption('attr', [
-           //     'placeholder' => 'Enter le type de stand d\'exposant'
-           // ]),
-
-            // BooleanField::new('stand.status')
-            //         ->setLabel('status de stand')
-            //         ->setFormTypeOption('attr', [
-            //     'placeholder' => 'Enter le status de stand d\'exposant'
-            // ]),
+       
         ];
     }
 
      public function configureActions(Actions $actions): Actions
     {
+        $import = Action::new('importExcel', 'Import Excel')
+        ->linkToCrudAction('importExcel')
+        ->createAsGlobalAction();
+
         return $actions
-            
+            // ...
+            ->add(Crud::PAGE_INDEX, $import)
             ->add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
-            return $action
-                ->setIcon('fa-solid fa-pen');
-        })
-        ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
-            return $action
-                ->setIcon('fa-solid fa-arrow-left');
-        });
+            // ->add(Crud::PAGE_EDIT, Action::SAVE_AND_ADD_ANOTHER)
+            
+        ;
     }
-    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+
+    public function importExcel(Request $request): Response
     {
-        parent::updateEntity($entityManager, $entityInstance);
+        if ($request->isMethod('POST')) {
 
-        $user = $entityInstance->getUser();
+            $file = $request->files->get('excel');
 
-        $hash = $this->hashPassword->hashPassword(
-            $user,
-            $user->getPassword()
-        );
-        
-        $user->setPassword($hash);
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file);
+            // dd($file);
+            $rows = $spreadsheet->getActiveSheet()->toArray();
 
-        $entityManager->persist($entityInstance);
-        $entityManager->flush();
+            $entityManager = $this->entityManager;
+
+            foreach ($rows as $index => $row) {
+
+                if ($index === 0) continue; // skip header
+
+                // dd($row[0]);
+
+                $exhibitor = new Exhibitor();
+
+                // $exhibitor->setPhone($row[2] ?? null);
+                $exhibitor->setCompanyName($row[0]);
+                $exhibitor->setFaciaName($row[2]);
+                $exhibitor->setCountry($row[1]);
+                $exhibitor->setProductGroup($row[3]);
+                $stand = new Stand();
+                $stand->setNumber($row[4]); 
+                $stand->settype($row[6]);
+                $stand->setSize($row[7]);
+                $stand->setOpenSide($row[8]);
+                $exhibitor->addStand($stand);
+                $exhibitor->setSqm($row[5]);
+
+
+                // $exhibitor->addStand($row[4]);
+                // $exhibitor->
+                // $exhibitor->setSectorActivity($row[5] ?? null);
+                // $exhibitor->setProductDisplay($row[6] ?? null);
+                // $exhibitor->setAdresse($row[7] ?? null);
+                // $exhibitor->setEmail($row[8] ?? null);
+
+                $entityManager->persist($exhibitor);
+                $entityManager->persist($stand);
+
+            }
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Excel imported successfully');
+
+            return $this->redirectToRoute('admin');
+        }
+
+        return $this->render('admin/import_excel.html.twig');
     }
+    
 }

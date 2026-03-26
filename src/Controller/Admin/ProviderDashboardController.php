@@ -10,10 +10,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 #[AdminDashboard(routePath: '/provider-administration', routeName: 'ProviderAdministration')]
 class ProviderDashboardController extends AbstractDashboardController
 {
+    #[Route('/provider-administration', name: 'ProviderAdministration')]
     public function index(): Response
     {
         return $this->render('bundles/EasyAdminBundle/views/welcome.html.twig');

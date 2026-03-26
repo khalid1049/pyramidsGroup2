@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\CustomerRequest;
+use App\Repository\ProviderRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -20,6 +21,15 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 
 class CustomerRequestCrudController extends AbstractCrudController
 {
+     private $providerRepository;
+
+    public function __construct(ProviderRepository $providerRepository)
+    {
+        $this->providerRepository = $providerRepository;
+    }
+
+  
+
     public static function getEntityFqcn(): string
     {
         return CustomerRequest::class;
@@ -30,10 +40,14 @@ class CustomerRequestCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
 
-            AssociationField::new('exhibitor'),
-            AssociationField::new('stand'),
-            AssociationField::new('provider'),
+            AssociationField::new('exhibitor')
+                        ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor'),
+            AssociationField::new('stand')
+                        ->setLabel('<i class="fa-solid fa-store adding"></i> Stand'),
+            AssociationField::new('provider')
+                        ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Provider'),
             CollectionField::new('requestedItems')
+                        ->setLabel('<i class="fa-solid fa-list-ul adding"></i> Requested Items')    
                             ->useEntryCrudForm()
                             ->allowAdd()
                             ->allowDelete()
@@ -42,6 +56,15 @@ class CustomerRequestCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+        return $actions -> add(Crud::PAGE_INDEX, Action::DETAIL)
+            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
+            return $action
+                ->setIcon('fa-solid fa-pen');
+        })
+        ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
+            return $action
+                ->setIcon('fa-solid fa-arrow-left');
+        });
         if (!$this->isGranted('ROLE_ADMIN')) {
             $actions
                 ->remove(Crud::PAGE_INDEX, Action::NEW);
@@ -51,19 +74,23 @@ class CustomerRequestCrudController extends AbstractCrudController
             ->remove(Crud::PAGE_DETAIL, Action::EDIT);
     }
 
-    public function createIndexQueryBuilder(
-        SearchDto $searchDto,
-        EntityDto $entityDto,
-        FieldCollection $fields,
-        FilterCollection $filters
-    ): QueryBuilder {
+    public function createIndexQueryBuilder(SearchDto $searchDto,EntityDto $entityDto,FieldCollection $fields,
+    FilterCollection $filters): QueryBuilder {
 
         $qb = parent::createIndexQueryBuilder($searchDto, $entityDto, $fields, $filters);
 
-        // Si l'utilisateur est provider, ne montrer que ses requests
-        if ($this->isGranted('ROLE_PROVIDER')) {
-            $qb->andWhere('entity.provider = :provider')
-            ->setParameter('provider', $this->getUser());
+        if ($this->isGranted('ROLE_PRESTATAIRE')) {
+
+            $provider = $this->providerRepository->findOneBy([
+                'user' => $this->getUser()
+            ]);
+
+            if ($provider) {
+                $qb->andWhere('entity.provider = :provider')
+                ->setParameter('provider', $provider);
+            } else {
+                $qb->andWhere('1 = 0');
+            }
         }
 
         return $qb;

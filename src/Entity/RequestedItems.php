@@ -27,25 +27,16 @@ class RequestedItems
     private ?int $spot = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $info = null;
+    private ?int $wallHanger = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $shelf = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $cabin = null;
+    private ?int $electricPlug = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $showcase = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $trible_scoket = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $brochure_stand = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $bar_chair = null;
+    private ?int $carpet = null;
 
     public function __toString(): string
     {
@@ -105,14 +96,14 @@ class RequestedItems
         return $this;
     }
 
-    public function getInfo(): ?int
+    public function getWallHanger(): ?int
     {
-        return $this->info;
+        return $this->wallHanger;
     }
 
-    public function setInfo(?int $info): static
+    public function setWallHanger(?int $wallHanger): static
     {
-        $this->info = $info;
+        $this->wallHanger = $wallHanger;
 
         return $this;
     }
@@ -129,62 +120,26 @@ class RequestedItems
         return $this;
     }
 
-    public function getCabin(): ?int
+    public function getElectricPlug(): ?int
     {
-        return $this->cabin;
+        return $this->electricPlug;
     }
 
-    public function setCabin(?int $cabin): static
+    public function setElectricPlug(?int $electricPlug): static
     {
-        $this->cabin = $cabin;
+        $this->electricPlug = $electricPlug;
 
         return $this;
     }
 
-    public function getShowcase(): ?int
+    public function getCarpet(): ?int
     {
-        return $this->showcase;
+        return $this->carpet;
     }
 
-    public function setShowcase(?int $showcase): static
+    public function setCarpet(?int $carpet): static
     {
-        $this->showcase = $showcase;
-
-        return $this;
-    }
-
-    public function getTribleScoket(): ?int
-    {
-        return $this->trible_scoket;
-    }
-
-    public function setTribleScoket(?int $trible_scoket): static
-    {
-        $this->trible_scoket = $trible_scoket;
-
-        return $this;
-    }
-
-    public function getBrochureStand(): ?int
-    {
-        return $this->brochure_stand;
-    }
-
-    public function setBrochureStand(?int $brochure_stand): static
-    {
-        $this->brochure_stand = $brochure_stand;
-
-        return $this;
-    }
-
-    public function getBarChair(): ?int
-    {
-        return $this->bar_chair;
-    }
-
-    public function setBarChair(?int $bar_chair): static
-    {
-        $this->bar_chair = $bar_chair;
+        $this->carpet = $carpet;
 
         return $this;
     }
