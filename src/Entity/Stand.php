@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\StandRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StandRepository::class)]
@@ -16,8 +18,6 @@ class Stand
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $number = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $surface = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $type = null;
@@ -26,11 +26,23 @@ class Stand
     private ?bool $status = null;
 
     #[ORM\ManyToOne(inversedBy: 'stands')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Exhibitor $exhibitor = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
+
+    /**
+     * @var Collection<int, CustomerRequest>
+     */
+    #[ORM\OneToMany(targetEntity: CustomerRequest::class, mappedBy: 'stand', orphanRemoval: true)]
+    private Collection $customerRequests;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $size = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $open_side = null;
 
     
 
@@ -38,6 +50,7 @@ class Stand
     {   
         // $this->exhibitor = new Exhibitor();
         $this->number = $this->generateStandNumber();
+        $this->customerRequests = new ArrayCollection();
     }
     public function __toString(): string
     {
@@ -61,17 +74,7 @@ class Stand
         return $this;
     }
 
-    public function getSurface(): ?string
-    {
-        return $this->surface;
-    }
-
-    public function setSurface(?string $surface): static
-    {
-        $this->surface = $surface;
-
-        return $this;
-    }
+   
 
     public function getType(): ?string
     {
@@ -123,6 +126,60 @@ class Stand
     public function setPrice(?float $price): static
     {
         $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CustomerRequest>
+     */
+    public function getCustomerRequests(): Collection
+    {
+        return $this->customerRequests;
+    }
+
+    public function addCustomerRequest(CustomerRequest $customerRequest): static
+    {
+        if (!$this->customerRequests->contains($customerRequest)) {
+            $this->customerRequests->add($customerRequest);
+            $customerRequest->setStand($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomerRequest(CustomerRequest $customerRequest): static
+    {
+        if ($this->customerRequests->removeElement($customerRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($customerRequest->getStand() === $this) {
+                $customerRequest->setStand(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getSize(): ?string
+    {
+        return $this->size;
+    }
+
+    public function setSize(?string $size): static
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    public function getOpenSide(): ?int
+    {
+        return $this->open_side;
+    }
+
+    public function setOpenSide(?int $open_side): static
+    {
+        $this->open_side = $open_side;
 
         return $this;
     }

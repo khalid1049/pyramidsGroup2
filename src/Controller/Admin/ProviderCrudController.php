@@ -85,20 +85,8 @@ class ProviderCrudController extends AbstractCrudController
 
         ];
     }
-    
-    public function configureActions(Actions $actions): Actions
-{
-    return $actions
-        ->add(Crud::PAGE_INDEX, Action::DETAIL)
-        ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
-            return $action
-                ->setIcon('fa-solid fa-pen');
-        })
-        ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
-            return $action
-                ->setIcon('fa-solid fa-arrow-left');
-        });
-}
+
+
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
@@ -116,4 +104,6 @@ class ProviderCrudController extends AbstractCrudController
         $entityManager->persist($entityInstance);
         $entityManager->flush();
     }
+    
+    
 }

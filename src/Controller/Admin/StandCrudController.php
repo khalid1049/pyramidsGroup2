@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+namespace App\Controller\Admin;
+
 use App\Entity\Stand;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -37,13 +39,13 @@ class StandCrudController extends AbstractCrudController
             TextField::new('Number')
                     ->setDisabled(true)
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-hashtag"></i> Number')
+                    ->setLabel('<i class="fa-solid fa-hashtag adding"></i> Number')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the number of stand'
             ]),
             NumberField::new('Surface')
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-ruler-combined"></i> Surface')
+                    ->setLabel('<i class="fa-solid fa-ruler-combined adding"></i> Surface')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the Surface of stand'
             ]),
@@ -53,7 +55,7 @@ class StandCrudController extends AbstractCrudController
                 'Modulaire' => 'Modulaire',
                 'Personnalisé' => 'Personnalisé',
             ])
-                    ->setLabel('<i class="fa-solid fa-shop"></i> Type')
+                    ->setLabel('<i class="fa-solid fa-shop adding"></i> Type')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Choose the type of stand'
             ]),
@@ -61,20 +63,20 @@ class StandCrudController extends AbstractCrudController
                     ->renderAsSwitch(false)
                     ->setColumns(4)
                     ->addCssClass('align-boolean')
-                    ->setLabel('<i class="fa-solid fa-credit-card"></i> Payement status')
+                    ->setLabel('<i class="fa-solid fa-credit-card adding"></i> Payement status')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the type of stand'
             ]),
             MoneyField::new('price')
                     ->setCurrency('MAD')
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-money-bill-wave"></i> Price')
+                    ->setLabel('<i class="fa-solid fa-money-bill-wave adding"></i> Price')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the price of stand'
             ]),
             AssociationField::new('exhibitor', 'Exhibitor')
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-user-tie"></i> Exhibitor')
+                    ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Choose the Exhibitor'
             ]),
