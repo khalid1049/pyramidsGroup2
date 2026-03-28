@@ -19,16 +19,11 @@ class ResponseProvider
     private ?Stand $stand = null;
 
  
-
-     
-    #[ORM\OneToMany(
-    targetEntity: RequestedItems::class,
-    mappedBy: 'responseProvider',
-    orphanRemoval: true,
-    cascade: ['persist']
-)]
-private Collection $requestedItems;
-
+    /**
+     * @var Collection<int, RequestedItems>
+     */
+    #[ORM\OneToMany(targetEntity: RequestedItems::class,mappedBy: 'responseProvider',orphanRemoval: true,cascade: ['persist'])]
+    private Collection $requestedItems;
 
     #[ORM\Column(nullable: true)]
     private ?int $progress_report = null;

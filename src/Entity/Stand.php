@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\StandRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: StandRepository::class)]
@@ -30,7 +31,7 @@ class Stand
     private ?Exhibitor $exhibitor = null;
 
     #[ORM\Column(nullable: true)]
-    private ?float $price = null;
+    private ?string $price = null;
 
     /**
      * @var Collection<int, CustomerRequest>
@@ -47,12 +48,33 @@ class Stand
     #[ORM\OneToOne(mappedBy: 'stand', cascade: ['persist', 'remove'])]
     private ?ResponseProvider $responseProvider = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $extra = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $chair = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $tableStand = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $spot = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $rod = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $shelf = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $tribleSocket = null;
+
     
 
     public function __construct()
     {   
         // $this->exhibitor = new Exhibitor();
-        $this->number = $this->generateStandNumber();
+        // $this->number = $this->generateStandNumber();
         $this->customerRequests = new ArrayCollection();
     }
     public function __toString(): string
@@ -121,12 +143,12 @@ class Stand
         return uniqid('STAND-');
     }
 
-    public function getPrice(): ?float
+    public function getPrice(): ?string
     {
         return $this->price;
     }
 
-    public function setPrice(?float $price): static
+    public function setPrice(?string $price): static
     {
         $this->price = $price;
 
@@ -205,6 +227,90 @@ class Stand
         }
 
         $this->responseProvider = $responseProvider;
+
+        return $this;
+    }
+
+    public function getExtra(): ?string
+    {
+        return $this->extra;
+    }
+
+    public function setExtra(?string $extra): static
+    {
+        $this->extra = $extra;
+
+        return $this;
+    }
+
+    public function getChair(): ?int
+    {
+        return $this->chair;
+    }
+
+    public function setChair(?int $chair): static
+    {
+        $this->chair = $chair;
+
+        return $this;
+    }
+
+    public function getTableStand(): ?int
+    {
+        return $this->tableStand;
+    }
+
+    public function setTableStand(?int $tableStand): static
+    {
+        $this->tableStand = $tableStand;
+
+        return $this;
+    }
+
+    public function getSpot(): ?int
+    {
+        return $this->spot;
+    }
+
+    public function setSpot(?int $spot): static
+    {
+        $this->spot = $spot;
+
+        return $this;
+    }
+
+    public function getRod(): ?int
+    {
+        return $this->rod;
+    }
+
+    public function setRod(?int $rod): static
+    {
+        $this->rod = $rod;
+
+        return $this;
+    }
+
+    public function getShelf(): ?int
+    {
+        return $this->shelf;
+    }
+
+    public function setShelf(?int $shelf): static
+    {
+        $this->shelf = $shelf;
+
+        return $this;
+    }
+
+    public function getTribleSocket(): ?int
+    {
+        return $this->tribleSocket;
+    }
+
+    public function setTribleSocket(?int $tribleSocket): static
+    {
+        $this->tribleSocket = $tribleSocket;
 
         return $this;
     }

@@ -68,6 +68,9 @@ class Exhibitor
     #[ORM\OneToOne(mappedBy: 'exhibitor', cascade: ['persist', 'remove'])]
     private ?ResponseProvider $responseProvider = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $sales = null;
+
     public function __construct()
     {
         $this->stands = new ArrayCollection();
@@ -301,6 +304,18 @@ class Exhibitor
         }
 
         $this->responseProvider = $responseProvider;
+
+        return $this;
+    }
+
+    public function getSales(): ?string
+    {
+        return $this->sales;
+    }
+
+    public function setSales(?string $sales): static
+    {
+        $this->sales = $sales;
 
         return $this;
     }
