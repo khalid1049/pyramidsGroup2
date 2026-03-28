@@ -1,6 +1,43 @@
-<h2>Import Excel</h2>
+{% extends '@EasyAdmin/page/content.html.twig' %}
 
-<form method="post" enctype="multipart/form-data">
-    <input type="file" name="excel" required>
-    <button type="submit">Upload</button>
-</form>
+{% block content %}
+
+<div class="import-container" style="display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;">
+
+    <div class="import-card" style="background: white !important;
+    padding: 40px;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;">
+        <h2 class="import-title" style="font-size: 22px;
+    margin-bottom: 25px;
+    font-weight: 600;">
+            <i class="fa-solid fa-file-excel" style="color: #217346 !important;
+    margin-right: 8px;"></i> Import Excel
+        </h2>
+
+        <form method="post" enctype="multipart/form-data" class="import-form">
+
+            <div class="file-input">
+                <input type="file" name="excel" required style="width: 100%;
+    padding: 10px;
+    border: 2px dashed #ddd;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s;">
+            </div>
+
+            <button type="submit" class="btn btn-primary import-btn" style="margin-top: 20px;">
+                <i class="fa-solid fa-upload"></i> Upload File
+            </button>
+
+        </form>
+    </div>
+
+</div>
+{% endblock %}

@@ -223,3 +223,13 @@ body.ea-dark-scheme #main-menu .menu .menu-item.active a {
 .align-boolean .form-check {
     margin-top: 30px;
 }
+.ea-detail .field-group .field-label {
+    color: var(--form-label-color);
+    font-size: var(--font-size-base);
+    font-weight: 500;
+    inline-size: 130px;
+    margin: 0 15px 0 0;
+    padding: 0 0 1px;
+    text-align: left;
+} 
+
