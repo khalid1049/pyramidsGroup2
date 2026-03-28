@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\CustomerRequest;
 use App\Entity\RequestedItems;
+use App\Entity\ResponseProvider;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -36,6 +37,8 @@ class ProviderDashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Requested Items', 'fa-solid fa-list', RequestedItems::class);
         yield MenuItem::linkToCrud('customer Request', 'fa-solid fa-book', CustomerRequest::class);
+        yield MenuItem::linkToCrud('Response Provider', 'fa-solid fa-reply', ResponseProvider::class);
+
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
     }
 

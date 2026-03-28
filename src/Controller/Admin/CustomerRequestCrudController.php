@@ -21,7 +21,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
 
 class CustomerRequestCrudController extends AbstractCrudController
 {
-     private $providerRepository;
+    private $providerRepository;
 
     public function __construct(ProviderRepository $providerRepository)
     {
@@ -56,24 +56,40 @@ class CustomerRequestCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-        return $actions -> add(Crud::PAGE_INDEX, Action::DETAIL)
-            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
-            return $action
-                ->setIcon('fa-solid fa-pen');
-        })
-        ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
-            return $action
-                ->setIcon('fa-solid fa-arrow-left');
-        });
         if (!$this->isGranted('ROLE_ADMIN')) {
-            $actions
-                ->remove(Crud::PAGE_INDEX, Action::NEW);
-        }
 
+            $actions
+                ->remove(Crud::PAGE_INDEX, Action::NEW)
+                ->remove(Crud::PAGE_INDEX, Action::EDIT)
+                ->remove(Crud::PAGE_INDEX, Action::DELETE)
+                // ->remove(Crud::PAGE_DETAIL, Action::NEW)
+                ->remove(Crud::PAGE_DETAIL, Action::EDIT)
+                ->remove(Crud::PAGE_DETAIL, Action::DELETE);
+
+        }
+        return $actions->add(Crud::PAGE_INDEX, Action::DETAIL);
         return $actions
-            ->remove(Crud::PAGE_DETAIL, Action::EDIT);
+            ->update(Crud::PAGE_DETAIL, Action::EDIT, function (Action $action) {
+                return $action->setIcon('fa-solid fa-pen');
+            })
+            ->update(Crud::PAGE_DETAIL, Action::INDEX, function (Action $action) {
+                return $action->setIcon('fa-solid fa-arrow-left');
+            })
+            ->update(Crud::PAGE_INDEX, Action::DETAIL, function (Action $action) {
+                return $action
+                    ->setIcon('fa-solid fa-eye')
+                    ->setLabel(false);
+            });
     }
 
+    // public function configureCrud(Crud $crud): Crud
+    // {
+    //     if (!$this->isGranted('ROLE_ADMIN')) {
+    //         throw $this->createAccessDeniedException();
+    //     }
+
+    //     return $crud;
+    // }
     public function createIndexQueryBuilder(SearchDto $searchDto,EntityDto $entityDto,FieldCollection $fields,
     FilterCollection $filters): QueryBuilder {
 

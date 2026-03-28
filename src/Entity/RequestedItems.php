@@ -38,6 +38,9 @@ class RequestedItems
     #[ORM\Column(nullable: true)]
     private ?int $carpet = null;
 
+    #[ORM\ManyToOne(inversedBy: 'requested_items')]
+    private ?ResponseProvider $responseProvider = null;
+
     public function __toString(): string
     {
         return 'Requested Item '.$this->getId();
@@ -140,6 +143,18 @@ class RequestedItems
     public function setCarpet(?int $carpet): static
     {
         $this->carpet = $carpet;
+
+        return $this;
+    }
+
+    public function getResponseProvider(): ?ResponseProvider
+    {
+        return $this->responseProvider;
+    }
+
+    public function setResponseProvider(?ResponseProvider $responseProvider): static
+    {
+        $this->responseProvider = $responseProvider;
 
         return $this;
     }

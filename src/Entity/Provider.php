@@ -35,10 +35,17 @@ class Provider
     #[ORM\OneToMany(targetEntity: CustomerRequest::class, mappedBy: 'provider')]
     private Collection $customerRequests;
 
+    /**
+     * @var Collection<int, ResponseProvider>
+     */
+    #[ORM\OneToMany(targetEntity: ResponseProvider::class, mappedBy: 'provider')]
+    private Collection $responseProviders;
+
     public function __construct()
     {   
         $this->user = new User();
         $this->customerRequests = new ArrayCollection();
+        $this->responseProviders = new ArrayCollection();
     }
     
      public function __toString(): string
@@ -124,6 +131,36 @@ class Provider
             // set the owning side to null (unless already changed)
             if ($customerRequest->getProvider() === $this) {
                 $customerRequest->setProvider(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ResponseProvider>
+     */
+    public function getResponseProviders(): Collection
+    {
+        return $this->responseProviders;
+    }
+
+    public function addResponseProvider(ResponseProvider $responseProvider): static
+    {
+        if (!$this->responseProviders->contains($responseProvider)) {
+            $this->responseProviders->add($responseProvider);
+            $responseProvider->setProvider($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResponseProvider(ResponseProvider $responseProvider): static
+    {
+        if ($this->responseProviders->removeElement($responseProvider)) {
+            // set the owning side to null (unless already changed)
+            if ($responseProvider->getProvider() === $this) {
+                $responseProvider->setProvider(null);
             }
         }
 

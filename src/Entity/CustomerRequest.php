@@ -26,10 +26,7 @@ class CustomerRequest
     /**
      * @var Collection<int, RequestedItems>
      */
-    #[ORM\OneToMany(targetEntity: RequestedItems::class,
-    mappedBy: 'customerRequest',
-    orphanRemoval: true,
-    cascade: ['persist'])]
+    #[ORM\OneToMany(targetEntity: RequestedItems::class,mappedBy: 'customerRequest',orphanRemoval: true,cascade: ['persist'])]
     private Collection $requestedItems;
 
     #[ORM\Column(nullable: true)]
@@ -38,11 +35,18 @@ class CustomerRequest
     #[ORM\ManyToOne(inversedBy: 'customerRequests')]
     private ?Provider $provider = null;
 
-   
+    #[ORM\OneToOne(mappedBy: 'customerRequest', cascade: ['persist', 'remove'])]
+    private ?ResponseProvider $responseProvider = null;
+
+    public function __toString(): string
+    {
+        return 'Customer Request '.$this->getExhibitor();
+    }
 
     public function __construct()
     {
         $this->requestedItems = new ArrayCollection();
+
     }
 
     public function getId(): ?int
@@ -82,27 +86,9 @@ class CustomerRequest
         return $this->requestedItems;
     }
 
-    public function addRequestedItem(RequestedItems $requestedItem): static
-    {
-        if (!$this->requestedItems->contains($requestedItem)) {
-            $this->requestedItems->add($requestedItem);
-            $requestedItem->setCustomerRequest($this);
-        }
+    
 
-        return $this;
-    }
-
-    public function removeRequestedItem(RequestedItems $requestedItem): static
-    {
-        if ($this->requestedItems->removeElement($requestedItem)) {
-            // set the owning side to null (unless already changed)
-            if ($requestedItem->getCustomerRequest() === $this) {
-                $requestedItem->setCustomerRequest(null);
-            }
-        }
-
-        return $this;
-    }
+   
 
     public function getProgressReport(): ?int
     {
@@ -127,4 +113,28 @@ class CustomerRequest
 
         return $this;
     }
+
+    public function getResponseProvider(): ?ResponseProvider
+    {
+        return $this->responseProvider;
+    }
+
+    public function setResponseProvider(?ResponseProvider $responseProvider): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($responseProvider === null && $this->responseProvider !== null) {
+            $this->responseProvider->setCustomerRequest(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($responseProvider !== null && $responseProvider->getCustomerRequest() !== $this) {
+            $responseProvider->setCustomerRequest($this);
+        }
+
+        $this->responseProvider = $responseProvider;
+
+        return $this;
+    }
+
+  
 }
