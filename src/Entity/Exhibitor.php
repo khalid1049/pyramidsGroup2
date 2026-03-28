@@ -65,6 +65,9 @@ class Exhibitor
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $note = null;
 
+    #[ORM\OneToOne(mappedBy: 'exhibitor', cascade: ['persist', 'remove'])]
+    private ?ResponseProvider $responseProvider = null;
+
     public function __construct()
     {
         $this->stands = new ArrayCollection();
@@ -276,6 +279,28 @@ class Exhibitor
     public function setNote(?string $note): static
     {
         $this->note = $note;
+
+        return $this;
+    }
+
+    public function getResponseProvider(): ?ResponseProvider
+    {
+        return $this->responseProvider;
+    }
+
+    public function setResponseProvider(?ResponseProvider $responseProvider): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($responseProvider === null && $this->responseProvider !== null) {
+            $this->responseProvider->setExhibitor(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($responseProvider !== null && $responseProvider->getExhibitor() !== $this) {
+            $responseProvider->setExhibitor($this);
+        }
+
+        $this->responseProvider = $responseProvider;
 
         return $this;
     }

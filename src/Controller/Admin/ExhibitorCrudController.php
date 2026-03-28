@@ -51,15 +51,7 @@ class ExhibitorCrudController extends AbstractCrudController
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the phone of exhibitor'
             ]),
-            TextField::new('user.username', 'Username')
-                    ->setLabel('<i class="fa-solid fa-circle-user adding"></i> Username')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter the user name of exhibitor'
-            ]),
-            TextField::new('user.password','Password')->hideOnIndex()->hideOnDetail()
-                    ->setLabel('<i class="fa-solid fa-lock adding"></i> Password')
-                    ->setFormTypeOption('attr', ['type' => 'password', 'placeholder'=>'Enter the password of exhibitor'])
-                    ->setFormTypeOption('data', '')->setRequired(true),
+            
 
 
             FieldFormField::addTab('company Informations'),

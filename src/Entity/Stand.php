@@ -44,6 +44,9 @@ class Stand
     #[ORM\Column(nullable: true)]
     private ?int $open_side = null;
 
+    #[ORM\OneToOne(mappedBy: 'stand', cascade: ['persist', 'remove'])]
+    private ?ResponseProvider $responseProvider = null;
+
     
 
     public function __construct()
@@ -180,6 +183,28 @@ class Stand
     public function setOpenSide(?int $open_side): static
     {
         $this->open_side = $open_side;
+
+        return $this;
+    }
+
+    public function getResponseProvider(): ?ResponseProvider
+    {
+        return $this->responseProvider;
+    }
+
+    public function setResponseProvider(?ResponseProvider $responseProvider): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($responseProvider === null && $this->responseProvider !== null) {
+            $this->responseProvider->setStand(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($responseProvider !== null && $responseProvider->getStand() !== $this) {
+            $responseProvider->setStand($this);
+        }
+
+        $this->responseProvider = $responseProvider;
 
         return $this;
     }
