@@ -15,3 +15,20 @@
 {% block content_title %}{{ block('page_title') }}{% endblock %}
 
 {% block main %}{{ block('page_content') }}{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+      console.log('hello from EA form');
+    document.addEventListener('DOMContentLoaded', function () {
+      
+
+        const exhibitorSelect = document.querySelector('[name="CustomerRequest[exhibitor]"]');
+        if (exhibitorSelect) {
+            exhibitorSelect.addEventListener('change', function () {
+                console.log('selected exhibitor:', this.value);
+            });
+        }
+    });
+    </script>
+{% endblock %}

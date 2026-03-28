@@ -42,22 +42,15 @@ class ExhibitorCrudController extends AbstractCrudController
             FieldFormField::addTab('User Informations'),
 
             FieldFormField::addRow(),
-            
-            FieldFormField::addColumn('col-lg-6 col-xl-6'),
-          
            
-            TelephoneField::new('phone', 'Phone')
-                    ->setLabel('Phone')
-                    ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter the phone of exhibitor'
-            ]),
-            
-
-
             FieldFormField::addTab('company Informations'),
             FieldFormField::addRow(),
             FieldFormField::addColumn('col-lg-4 col-xl-4'),
-
+            TextField::new('sales')
+                    ->setLabel('<i class="fa-solid fa-users-line adding"></i> Sales')
+                    ->setFormTypeOption('attr', [
+                        'placeholder' => 'Enter the sales of exhibitor'
+            ]),
             TextField::new('CompanyName')
                     ->setLabel('<i class="fa-solid fa-building adding"></i> Company')
                     ->setFormTypeOption('attr', [
@@ -102,7 +95,7 @@ class ExhibitorCrudController extends AbstractCrudController
         ];
     }
 
-     public function configureActions(Actions $actions): Actions
+    public function configureActions(Actions $actions): Actions
     {
         $import = Action::new('importExcel', 'Import Excel')
         ->linkToCrudAction('importExcel')
@@ -133,22 +126,35 @@ class ExhibitorCrudController extends AbstractCrudController
 
                 if ($index === 0) continue; // skip header
 
-                // dd($row[0]);
+                if (!array_filter($row)) {
+                    continue;
+                }
+                
 
                 $exhibitor = new Exhibitor();
 
                 // $exhibitor->setPhone($row[2] ?? null);
-                $exhibitor->setCompanyName($row[0]);
-                $exhibitor->setFaciaName($row[2]);
-                $exhibitor->setCountry($row[1]);
-                $exhibitor->setProductGroup($row[3]);
+                $exhibitor->setSales($row[0]);
+                $exhibitor->setCompanyName($row[1]);
+                $exhibitor->setFaciaName($row[3]);
+                $exhibitor->setCountry($row[2]);
+                $exhibitor->setProductGroup($row[4]);
                 $stand = new Stand();
-                $stand->setNumber($row[4]); 
-                $stand->settype($row[6]);
-                $stand->setSize($row[7]);
-                $stand->setOpenSide($row[8]);
+                $stand->setNumber($row[5]);
+                $exhibitor->setSqm($row[6]);
+                $stand->settype($row[7]);
+                $stand->setSize($row[8]);
+                $stand->setOpenSide($row[9]);
+                $stand->setTableStand($row[10]);
+                $stand->setChair($row[11]);
+                $stand->setSpot($row[12]);
+                $stand->setRod($row[13]);
+                $stand->setShelf($row[14]);
+                $stand->setTribleSocket($row[15]);
+                $stand->setExtra($row[16]);
+                $stand->setPrice($row[17]);
+
                 $exhibitor->addStand($stand);
-                $exhibitor->setSqm($row[5]);
 
 
                 // $exhibitor->addStand($row[4]);

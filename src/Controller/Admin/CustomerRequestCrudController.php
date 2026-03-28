@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\CustomerRequest;
 use App\Repository\ProviderRepository;
+use App\Repository\StandRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -18,6 +19,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\Routing\Annotation\Route;
 
 class CustomerRequestCrudController extends AbstractCrudController
 {
@@ -40,17 +43,33 @@ class CustomerRequestCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
 
+            // AssociationField::new('exhibitor')
+            //             ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor'),
+            // AssociationField::new('stand')
+            //             ->setLabel('<i class="fa-solid fa-store adding"></i> Stand'),
             AssociationField::new('exhibitor')
-                        ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor'),
+                ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
+                ->setRequired(true)
+                ->setFormTypeOptions([
+                    'attr' => [
+                        // juste URL sans id
+                        'data-stand-url' => $this->generateUrl('admin_stand_by_exhibitor', ['id' => 0])
+                    ]
+                ]),
             AssociationField::new('stand')
-                        ->setLabel('<i class="fa-solid fa-store adding"></i> Stand'),
+                    ->setLabel('<i class="fa-solid fa-store adding"></i> Stand')
+                    ->setRequired(true)
+                    // ->setFormTypeOptions([
+                    //     'choices' => [] 
+                    // ]),
+                    ,
             AssociationField::new('provider')
                         ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Provider'),
             CollectionField::new('requestedItems')
                         ->setLabel('<i class="fa-solid fa-list-ul adding"></i> Requested Items')    
-                            ->useEntryCrudForm()
-                            ->allowAdd()
-                            ->allowDelete()
+                        ->useEntryCrudForm()
+                        ->allowAdd()
+                        ->allowDelete()
         ];
     }
 
@@ -82,6 +101,22 @@ class CustomerRequestCrudController extends AbstractCrudController
             });
     }
 
+    #[Route('/admin/stands-by-exhibitor/{id}', name: 'admin_stand_by_exhibitor')]
+    public function getStandsByExhibitor(StandRepository $standRepository, int $id): JsonResponse
+    {
+        $stands = $standRepository->findBy(['exhibitor' => $id]);
+        dd($stands);
+        $data = [];
+
+        foreach ($stands as $stand) {
+            $data[] = [
+                'id' => $stand->getId(),
+                'label' => (string)$stand, // Stand 12
+            ];
+        }
+
+        return new JsonResponse($data);
+    }
     // public function configureCrud(Crud $crud): Crud
     // {
     //     if (!$this->isGranted('ROLE_ADMIN')) {

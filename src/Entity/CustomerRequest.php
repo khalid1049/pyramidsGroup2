@@ -87,7 +87,27 @@ class CustomerRequest
     }
 
     
+    public function addRequestedItem(RequestedItems $requestedItem): static
+    {
+        if (!$this->requestedItems->contains($requestedItem)) {
+            $this->requestedItems->add($requestedItem);
+            $requestedItem->setCustomerRequest($this);
+        }
 
+        return $this;
+    }
+
+    public function removeRequestedItem(RequestedItems $requestedItem): static
+    {
+        if ($this->requestedItems->removeElement($requestedItem)) {
+            // set the owning side to null (unless already changed)
+            if ($requestedItem->getCustomerRequest() === $this) {
+                $requestedItem->setCustomerRequest(null);
+            }
+        }
+
+        return $this;
+    }
    
 
     public function getProgressReport(): ?int
