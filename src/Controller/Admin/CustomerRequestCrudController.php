@@ -49,19 +49,21 @@ class CustomerRequestCrudController extends AbstractCrudController
             //             ->setLabel('<i class="fa-solid fa-store adding"></i> Stand'),
             AssociationField::new('exhibitor')
                 ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
-                ->setRequired(true)
                 ->setFormTypeOptions([
                     'attr' => [
-                        // juste URL sans id
-                        'data-stand-url' => $this->generateUrl('admin_stand_by_exhibitor', ['id' => 0])
+                        'data-stand-url' => '/admin/stands-by-exhibitor/__id__'
                     ]
                 ]),
+                
             AssociationField::new('stand')
-                    ->setLabel('<i class="fa-solid fa-store adding"></i> Stand')
-                    ->setRequired(true)
-                    // ->setFormTypeOptions([
-                    //     'choices' => [] 
-                    // ]),
+                    ->setLabel('Stand')
+                    // ->setQueryBuilder(function (QueryBuilder $qb) {
+                    //     $qb->leftJoin('entity.exhibitor', 'e')
+                    //     ->andWhere('e.id = :exhibitor')
+                    //     ->setParameter('exhibitor', $_GET['exhibitor'] ?? 0);
+
+                    //     return $qb;
+                    // }),
                     ,
             AssociationField::new('provider')
                         ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Provider'),
@@ -105,7 +107,7 @@ class CustomerRequestCrudController extends AbstractCrudController
     public function getStandsByExhibitor(StandRepository $standRepository, int $id): JsonResponse
     {
         $stands = $standRepository->findBy(['exhibitor' => $id]);
-        dd($stands);
+        // dd($stands);
         $data = [];
 
         foreach ($stands as $stand) {

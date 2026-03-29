@@ -57,7 +57,7 @@ class Exhibitor
     private Collection $customerRequests;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $product_group = null;
+    private ?string $productGroup = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $sqm = null;
@@ -252,12 +252,12 @@ class Exhibitor
 
     public function getProductGroup(): ?string
     {
-        return $this->product_group;
+        return $this->productGroup;
     }
 
-    public function setProductGroup(?string $product_group): static
+    public function setProductGroup(?string $productGroup): static
     {
-        $this->product_group = $product_group;
+        $this->productGroup = $productGroup;
 
         return $this;
     }
