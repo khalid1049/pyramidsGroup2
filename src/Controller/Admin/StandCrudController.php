@@ -2,8 +2,6 @@
 
 namespace App\Controller\Admin;
 
-namespace App\Controller\Admin;
-
 use App\Entity\Stand;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
@@ -37,18 +35,24 @@ class StandCrudController extends AbstractCrudController
             // FieldFormField::addColumn('col-lg-4 col-xl-4'),
             IdField::new('id')->onlyOnIndex(),
             TextField::new('Number')
-                    ->setDisabled(true)
                     ->setColumns(4)
                     ->setLabel('<i class="fa-solid fa-hashtag adding"></i> Number')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the number of stand'
             ]),
-            NumberField::new('Surface')
+            TextField::new('size')
                     ->setColumns(4)
                     ->setLabel('<i class="fa-solid fa-ruler-combined adding"></i> Surface')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter the Surface of stand'
+                'placeholder' => 'Enter the surface of stand'
             ]),
+            NumberField::new('open_side')
+                    ->setColumns(4)
+                    ->setLabel('<i class="fa-solid fa-border-all adding"></i> Open side')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the open side of stand'
+            ]),
+            
             ChoiceField::new('Type')
                     ->setColumns(4)
                     ->setChoices([
@@ -67,8 +71,7 @@ class StandCrudController extends AbstractCrudController
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the type of stand'
             ]),
-            MoneyField::new('price')
-                    ->setCurrency('MAD')
+            TextField::new('price')
                     ->setColumns(4)
                     ->setLabel('<i class="fa-solid fa-money-bill-wave adding"></i> Price')
                     ->setFormTypeOption('attr', [
