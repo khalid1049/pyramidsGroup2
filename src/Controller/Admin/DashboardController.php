@@ -60,6 +60,8 @@ class DashboardController extends AbstractDashboardController
             // ->addJsFile('https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js')
             // ->addJsFile('js/adminJs.js')
             ->addCssFile('css/adminCss.css')
+            ->addJsFile('js/adminJs.js')
+
             ;
             
        
