@@ -59,9 +59,6 @@ class Exhibitor
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $productGroup = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $sqm = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $note = null;
 
@@ -262,18 +259,7 @@ class Exhibitor
         return $this;
     }
 
-    public function getSqm(): ?int
-    {
-        return $this->sqm;
-    }
-
-    public function setSqm(?int $sqm): static
-    {
-        $this->sqm = $sqm;
-
-        return $this;
-    }
-
+    
     public function getNote(): ?string
     {
         return $this->note;

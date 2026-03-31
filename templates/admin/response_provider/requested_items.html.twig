@@ -1,0 +1,78 @@
+<div class="card shadow-sm border-0">
+    <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">
+            <i class="fa fa-list"></i> Requested Items
+        </h5>
+    </div>
+
+    <div class="card-body">
+
+        {% if field.value|length == 0 %}
+            <div class="alert alert-info">
+                No requested items found.
+            </div>
+        {% else %}
+
+            <div class="row">
+
+                {% for item in field.value %}
+                    <div class="col-md-4 mb-3">
+
+                        <div class="card h-100 border-0 shadow-sm">
+
+                            <div class="card-body">
+
+                                <h6 class="text-primary fw-bold">
+                                    Item #{{ item.id }}
+                                </h6>
+
+                                <hr>
+
+                                <p>
+                                    <strong>chair :</strong><br>
+                                    {{ item.chair ?? 'N/A' }}
+                                </p>
+
+                                <p>
+                                    <strong>tables :</strong><br>
+                                    {{ item.tables ?? 'N/A' }}
+                                </p>
+
+                                <p>
+                                    <strong>spot :</strong><br>
+                                    {{ item.spot ?? '—' }}
+                                </p>
+                                <p>
+                                    <strong>wallHanger :</strong><br>
+                                    {{ item.wallHanger ?? '—' }}
+                                </p>
+                                <p>
+                                    <strong>Comment :</strong><br>
+                                    {{ item.spot ?? '—' }}
+                                </p>
+                                <p>
+                                    <strong>shelf :</strong><br>
+                                    {{ item.shelf ?? '—' }}
+                                </p>
+                                <p>
+                                    <strong>electricPlug :</strong><br>
+                                    {{ item.electricPlug ?? '—' }}
+                                </p>
+                                <p>
+                                    <strong>carpet :</strong><br>
+                                    {{ item.carpet ?? '—' }}
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        {% endif %}
+
+    </div>
+</div>

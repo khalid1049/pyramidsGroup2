@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Entity\Exhibitor;
 use App\Entity\Provider;
 use App\Entity\RequestedItems;
+use App\Entity\ResponseProvider;
 use App\Entity\Stand;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
@@ -45,6 +46,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Provider', 'fa-solid fa-briefcase', Provider::class);
         yield MenuItem::linkToCrud('Requested Items', 'fa-solid fa-list', RequestedItems::class);
         yield MenuItem::linkToCrud('customer Request', 'fa-solid fa-book', CustomerRequest::class);
+        yield MenuItem::linkToCrud('Response Provider', 'fa-solid fa-reply', ResponseProvider::class);
+
 
 
 

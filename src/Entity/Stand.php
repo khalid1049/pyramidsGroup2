@@ -43,13 +43,16 @@ class Stand
     private ?string $size = null;
 
     #[ORM\Column(nullable: true)]
-    private ?int $open_side = null;
+    private ?int $openSide = null;
 
     #[ORM\OneToOne(mappedBy: 'stand', cascade: ['persist', 'remove'])]
     private ?ResponseProvider $responseProvider = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $extra = null;
+    
+    #[ORM\Column(nullable: true)]
+    private ?int $sqm = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $chair = null;
@@ -69,7 +72,6 @@ class Stand
     #[ORM\Column(nullable: true)]
     private ?int $tribleSocket = null;
 
-    
 
     public function __construct()
     {   
@@ -137,12 +139,6 @@ class Stand
         return $this;
     }
 
-    protected function generateStandNumber(): string
-    {
-        // Générer un numéro de stand unique (par exemple, en utilisant un UUID ou une combinaison de lettres et de chiffres)
-        return uniqid('STAND-');
-    }
-
     public function getPrice(): ?string
     {
         return $this->price;
@@ -199,12 +195,12 @@ class Stand
 
     public function getOpenSide(): ?int
     {
-        return $this->open_side;
+        return $this->openSide;
     }
 
-    public function setOpenSide(?int $open_side): static
+    public function setOpenSide(?int $openSide): static
     {
-        $this->open_side = $open_side;
+        $this->openSide = $openSide;
 
         return $this;
     }
@@ -314,4 +310,17 @@ class Stand
 
         return $this;
     }
+
+    public function getSqm(): ?int
+    {
+        return $this->sqm;
+    }
+
+    public function setSqm(?int $sqm): static
+    {
+        $this->sqm = $sqm;
+
+        return $this;
+    }
+
 }

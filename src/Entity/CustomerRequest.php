@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CustomerRequestRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRequestRepository::class)]
@@ -35,8 +36,41 @@ class CustomerRequest
     #[ORM\ManyToOne(inversedBy: 'customerRequests')]
     private ?Provider $provider = null;
 
-    #[ORM\OneToOne(mappedBy: 'customerRequest', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'customerRequest', cascade: ['persist'], orphanRemoval: false)]
     private ?ResponseProvider $responseProvider = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $chair = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $tableStand = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $spot = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $wallHanger = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $shelf = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $electricPlug = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $carpet = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $extra = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $tribleSocket = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $rod = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $sqm = null;
 
     public function __toString(): string
     {
@@ -156,5 +190,137 @@ class CustomerRequest
         return $this;
     }
 
+    
+    public function getExtra(): ?string
+    {
+        return $this->extra;
+    }
+
+    public function setExtra(?string $extra): static
+    {
+        $this->extra = $extra;
+
+        return $this;
+    }
+
+    public function getChair(): ?int
+    {
+        return $this->chair;
+    }
+
+    public function setChair(?int $chair): static
+    {
+        $this->chair = $chair;
+
+        return $this;
+    }
+
+    public function getTableStand(): ?int
+    {
+        return $this->tableStand;
+    }
+
+    public function setTableStand(?int $tableStand): static
+    {
+        $this->tableStand = $tableStand;
+
+        return $this;
+    }
+
+    public function getSpot(): ?int
+    {
+        return $this->spot;
+    }
+
+    public function setSpot(?int $spot): static
+    {
+        $this->spot = $spot;
+
+        return $this;
+    }
+
+    public function getRod(): ?int
+    {
+        return $this->rod;
+    }
+
+    public function setRod(?int $rod): static
+    {
+        $this->rod = $rod;
+
+        return $this;
+    }
+
+    public function getShelf(): ?int
+    {
+        return $this->shelf;
+    }
+
+    public function setShelf(?int $shelf): static
+    {
+        $this->shelf = $shelf;
+
+        return $this;
+    }
+
+    public function getTribleSocket(): ?int
+    {
+        return $this->tribleSocket;
+    }
+
+    public function setTribleSocket(?int $tribleSocket): static
+    {
+        $this->tribleSocket = $tribleSocket;
+
+        return $this;
+    }
+
+    public function getSqm(): ?int
+    {
+        return $this->sqm;
+    }
+
+    public function setSqm(?int $sqm): static
+    {
+        $this->sqm = $sqm;
+
+        return $this;
+    }
+
+    public function getElectricPlug(): ?int
+    {
+        return $this->electricPlug;
+    }
+
+    public function setElectricPlug(?int $electricPlug): static
+    {
+        $this->electricPlug = $electricPlug;
+
+        return $this;
+    }
+
+    public function getCarpet(): ?int
+    {
+        return $this->carpet;
+    }
+
+    public function setCarpet(?int $carpet): static
+    {
+        $this->carpet = $carpet;
+
+        return $this;
+    }
+
+    public function getWallHanger(): ?int
+    {
+        return $this->wallHanger;
+    }
+
+    public function setWallHanger(?int $wallHanger): static
+    {
+        $this->wallHanger = $wallHanger;
+
+        return $this;
+    }
   
 }
