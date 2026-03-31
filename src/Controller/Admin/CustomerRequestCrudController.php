@@ -48,7 +48,10 @@ class CustomerRequestCrudController extends AbstractCrudController
             // AssociationField::new('stand')
             //             ->setLabel('<i class="fa-solid fa-store adding"></i> Stand'),
             AssociationField::new('exhibitor')
-                ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
+                ->setLabel(
+                    $pageName === Crud::PAGE_INDEX
+                    ? 'Exhibitor'
+                    :'<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
                 ->setFormTypeOptions([
                     'attr' => [
                         'data-stand-url' => '/admin/stands-by-exhibitor/__id__'
@@ -66,9 +69,15 @@ class CustomerRequestCrudController extends AbstractCrudController
                     // }),
                     ,
             AssociationField::new('provider')
-                        ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Provider'),
+                        ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Provider'
+                            :'<i class="fa-solid fa-briefcase adding"></i> Provider'),
             CollectionField::new('requestedItems')
-                        ->setLabel('<i class="fa-solid fa-list-ul adding"></i> Requested Items')    
+                        ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Requested Items'
+                            :'<i class="fa-solid fa-list-ul adding"></i> Requested Items')    
                         ->useEntryCrudForm()
                         ->allowAdd()
                         ->allowDelete()

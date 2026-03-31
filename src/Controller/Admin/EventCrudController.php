@@ -28,22 +28,34 @@ class EventCrudController extends AbstractCrudController
         return [
             IdField::new('id')->onlyOnIndex(),
             TextField::new('title')
-                    ->setLabel('<i class="fa-solid fa-calendar-days adding"></i> Title')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Title'
+                            :'<i class="fa-solid fa-calendar-days adding"></i> Title')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the title of event'
             ]),
             TextareaField::new('description')
-                        ->setLabel('<i class="fa-solid fa-file adding"></i> Description')
+                        ->setLabel(
+                                $pageName === Crud::PAGE_INDEX
+                                ? 'Description'
+                                :'<i class="fa-solid fa-file adding"></i> Description')
                         ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the description of event'
             ]),
             TextField::new('localisation')
-                    ->setLabel('<i class="fa-solid fa-location-dot adding"></i> Location')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Location'
+                            :'<i class="fa-solid fa-location-dot adding"></i> Location')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the location of event'
             ]),
             DateField::new('startedAt')
-                    ->setLabel('<i class="fa-solid fa-calendar adding"></i> Date of event')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Date of event'
+                            :'<i class="fa-solid fa-calendar adding"></i> Date of event')
                     ->setFormTypeOption('widget', 'single_text')           
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Select the start date and time of the event'

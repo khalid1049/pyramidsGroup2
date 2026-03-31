@@ -47,46 +47,70 @@ class ExhibitorCrudController extends AbstractCrudController
             FieldFormField::addRow(),
             FieldFormField::addColumn('col-lg-4 col-xl-4'),
             TextField::new('sales')
-                    ->setLabel('<i class="fa-solid fa-users-line adding"></i> Sales')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Sales'
+                            :'<i class="fa-solid fa-users-line adding"></i> Sales')
                     ->setFormTypeOption('attr', [
                         'placeholder' => 'Enter the sales of exhibitor'
             ]),
             TextField::new('CompanyName')
-                    ->setLabel('<i class="fa-solid fa-building adding"></i> Company')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Company'
+                            :'<i class="fa-solid fa-building adding"></i> Company')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the company of exhibitor'
             ]),
             TextField::new('facia_name')
-                    ->setLabel('facia_name')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Facia name'
+                            :'<i class="fa-solid fa-sign-hanging adding"></i> Facia name')
                     ->setFormTypeOption('attr', [
-                'placeholder' => 'Enter l\'entreprise d\'exposant'
+                'placeholder' => 'Enter the facia name of exhibitor'
             ]),
             CountryField::new('country')
-                    ->setLabel('<i class="fa-solid fa-globe adding"></i> Country')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Country'
+                            :'<i class="fa-solid fa-globe adding"></i> Country')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the country of exhibitor'
             ]),
             FieldFormField::addColumn('col-lg-4 col-xl-4'),
 
             TextField::new('sectorActivity')
-                    ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Sector of activity')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Sector of activity'
+                            :'<i class="fa-solid fa-briefcase adding"></i> Sector of activity')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the exhibitor\'s sector of activity'
             ]),
             TextField::new('productDisplay')
-                    ->setLabel('<i class="fa-solid fa-box adding"></i> Product')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Product'
+                            :'<i class="fa-solid fa-box adding"></i> Product')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter exhibitor\'s product'
             ]),
             FieldFormField::addColumn('col-lg-4 col-xl-4'),
 
             TextField::new('adresse')
-                    ->setLabel('<i class="fa-solid fa-address-card adding"></i> Adress')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Adress'
+                            :'<i class="fa-solid fa-address-card adding"></i> Adress')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the adress of exhibitor'
             ]),
             TextField::new('email')
-                    ->setLabel('<i class="fa-solid fa-at adding"></i> Email')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Email'
+                            :'<i class="fa-solid fa-at adding"></i> Email')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter email of exhibitor'
             ]),
@@ -109,6 +133,33 @@ class ExhibitorCrudController extends AbstractCrudController
             
         ;
     }
+
+    public function convertCountry($country)
+{
+    if (!$country) return null;
+
+    $country = strtoupper(trim($country));
+
+    return match ($country) {
+        'BANGLADESH' => 'BD',
+        'PORTUGAL' => 'PT',
+        'TUNISIA' => 'TN',
+        'ITALY' => 'IT',
+        'MOROCCO' => 'MA',
+        'UK' => 'GB',
+        'SPAIN' => 'ES',
+        'FRANCE' => 'FR',
+        'INDONESIA' => 'ID',
+        'EGYPT' => 'EG',
+        'UZBEKISTAN' => 'UZ',
+        'INDIA' => 'IN',
+        'PAKISTAN' => 'PK',
+        'CHINA' => 'CN',
+        'POLAND' => 'PL',
+        'TURKEY' => 'TR',
+        default => null,
+    };
+}
 
     public function importExcel(Request $request): Response
     {
@@ -137,7 +188,14 @@ class ExhibitorCrudController extends AbstractCrudController
                 $exhibitor->setSales($row[0]);
                 $exhibitor->setCompanyName($row[1]);
                 $exhibitor->setFaciaName($row[3]);
-                $exhibitor->setCountry($row[2]);
+                $countryCode = $this->convertCountry($row[2]);
+
+if (!$countryCode) {
+    $this->addFlash('danger', 'Pays invalide: '.$row[2]);
+    continue;
+}
+
+$exhibitor->setCountry($countryCode);
                 $exhibitor->setProductGroup($row[4]);
                 $stand = new Stand();
                 $stand->setNumber($row[5]);

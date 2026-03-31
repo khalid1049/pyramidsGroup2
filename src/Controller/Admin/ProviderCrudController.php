@@ -40,44 +40,68 @@ class ProviderCrudController extends AbstractCrudController
 
             
             TextField::new('user.firstName', 'First Name')
-                    ->setLabel('<i class="fa-solid fa-user adding"></i> First Name')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'First Name'
+                            :'<i class="fa-solid fa-user adding"></i> First Name')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the first name of provider',
 
             ]),
             TextField::new('user.lastName', 'Last Name')
-                    ->setLabel('<i class="fa-solid fa-user adding"></i> Last Name')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Last Name'
+                            :'<i class="fa-solid fa-user adding"></i> Last Name')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the last name of provider'
             ]),
             TextField::new('user.phone', 'Phone')
-                    ->setLabel('<i class="fa-solid fa-phone adding"></i> Phone')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Phone'
+                            :'<i class="fa-solid fa-phone adding"></i> Phone')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the number phone of provider'
             ]),
             TextField::new('user.username', 'Username')
-                    ->setLabel('<i class="fa-solid fa-circle-user adding"></i> Username')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Username'
+                            :'<i class="fa-solid fa-circle-user adding"></i> Username')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the user name of provider'
             ]),
             TextField::new('user.password','Password')->hideOnIndex()->hideOnDetail()
-                    ->setLabel('<i class="fa-solid fa-lock adding"></i> Password')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Password'
+                            :'<i class="fa-solid fa-lock adding"></i> Password')
                     ->setFormTypeOption('attr', ['type' => 'password', 'placeholder'=>'Enter the password of provider'])
-                     ->setFormTypeOption('data', '')->setRequired(true),
+                    ->setFormTypeOption('data', '')->setRequired(true),
 
             FormField::addTab('Other Informations'),
             TextField::new('adresse')
-                    ->setLabel('<i class="fa-solid fa-address-card adding"></i> Adress')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Adress'
+                            :'<i class="fa-solid fa-address-card adding"></i> Adress')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the adress of provider'
             ]),
             TextField::new('activityType')
-                    ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Type of activity')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Type of activity'
+                            :'<i class="fa-solid fa-briefcase adding"></i> Type of activity')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the provider\'s type of activity'
             ]),
             TextareaField::new('serviceOffered')
-                        ->setLabel('<i class="fa-solid fa-handshake adding"></i> Service offered')
+                        ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Service offered'
+                            :'<i class="fa-solid fa-handshake adding"></i> Service offered')
                         ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the provider\'s service'
             ]),
