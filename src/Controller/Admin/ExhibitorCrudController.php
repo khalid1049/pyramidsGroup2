@@ -199,7 +199,7 @@ $exhibitor->setCountry($countryCode);
                 $exhibitor->setProductGroup($row[4]);
                 $stand = new Stand();
                 $stand->setNumber($row[5]);
-                $exhibitor->setSqm($row[6]);
+                $stand->setSqm($row[6]);
                 $stand->settype($row[7]);
                 $stand->setSize($row[8]);
                 $stand->setOpenSide($row[9]);

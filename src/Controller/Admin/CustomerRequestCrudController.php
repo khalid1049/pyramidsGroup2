@@ -19,6 +19,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\SearchDto;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -42,11 +44,10 @@ class CustomerRequestCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-
-            // AssociationField::new('exhibitor')
-            //             ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor'),
-            // AssociationField::new('stand')
-            //             ->setLabel('<i class="fa-solid fa-store adding"></i> Stand'),
+            FormField::addTab('customerRequest Informations'),
+             FormField::addRow(),
+            FormField::addColumn('col-lg-6 col-xl-6'),
+           
             AssociationField::new('exhibitor')
                 ->setLabel(
                     $pageName === Crud::PAGE_INDEX
@@ -59,15 +60,8 @@ class CustomerRequestCrudController extends AbstractCrudController
                 ]),
                 
             AssociationField::new('stand')
-                    ->setLabel('Stand')
-                    // ->setQueryBuilder(function (QueryBuilder $qb) {
-                    //     $qb->leftJoin('entity.exhibitor', 'e')
-                    //     ->andWhere('e.id = :exhibitor')
-                    //     ->setParameter('exhibitor', $_GET['exhibitor'] ?? 0);
-
-                    //     return $qb;
-                    // }),
-                    ,
+                    ->setLabel('Stand'),
+                
             AssociationField::new('provider')
                         ->setLabel(
                             $pageName === Crud::PAGE_INDEX
