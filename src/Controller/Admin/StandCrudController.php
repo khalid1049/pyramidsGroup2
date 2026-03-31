@@ -40,6 +40,18 @@ class StandCrudController extends AbstractCrudController
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the number of stand'
             ]),
+            TextField::new('size')
+                    ->setColumns(4)
+                    ->setLabel('<i class="fa-solid fa-ruler-combined adding"></i> Surface')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the surface of stand'
+            ]),
+            NumberField::new('open_side')
+                    ->setColumns(4)
+                    ->setLabel('<i class="fa-solid fa-border-all adding"></i> Open side')
+                    ->setFormTypeOption('attr', [
+                'placeholder' => 'Enter the open side of stand'
+            ]),
             
             ChoiceField::new('Type')
                     ->setColumns(4)
