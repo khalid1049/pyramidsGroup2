@@ -1,11 +1,113 @@
-{# @var ea \EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext #}
 {% extends '@EasyAdmin/page/content.html.twig' %}
 
- 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
 
 {% block main %}
 
+    {% if user[0] != 'ROLE_PRESTATAIRE' and user[0] == 'ROLE_ADMIN' %}
+        <div class="dashboard-grid">
+            <!-- Card 1 - Users -->
+            <div class="card card-blue">
+                <div class="card-icon"><i class="fa-solid fa-user"></i></div>
+                <div class="card-content">
+                    <p class="card-title">Users</p>
+                    <p class="card-number">{{ usersCount }}</p>
+                </div>
+            </div>
 
+            <!-- Card 2 - Exhibitors -->
+            <div class="card card-green">
+                <div class="card-icon"><i class="fa-solid fa-user-tie"></i></div>
+                <div class="card-content">
+                    <p class="card-title">Exhibitors</p>
+                    <p class="card-number">{{ exhibitorsCount }}</p>
+                </div>
+            </div>
 
+            <!-- Card 3 - Providers -->
+            <div class="card card-yellow">
+                <div class="card-icon"><i class="fa-solid fa-briefcase"></i></div>
+                <div class="card-content">
+                    <p class="card-title">Providers</p>
+                    <p class="card-number">{{ providersCount }}</p>
+                </div>
+            </div>
 
+            <!-- Card 4 - Customer Requests -->
+            <div class="card card-red">
+                <div class="card-icon"><i class="fa-solid fa-book"></i></div>
+                <div class="card-content">
+                    <p class="card-title">Customer Requests</p>
+                    <p class="card-number">{{ customerRequestsCount }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+<style>
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.15);
+}
+
+.card-icon {
+    font-size: 10px;
+    color: white;
+    padding: 15px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+}
+
+.card-number {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Colors */
+.card-blue .card-icon { background-color: #3b82f6; }
+.card-green .card-icon { background-color: #22c55e; }
+.card-yellow .card-icon { background-color: #facc15; }
+.card-red .card-icon { background-color: #ef4444; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+</style>
 {% endblock %}

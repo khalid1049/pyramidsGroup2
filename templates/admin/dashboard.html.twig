@@ -1,0 +1,52 @@
+{# templates/admin/dashboard.html.twig #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content %}
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
+
+    {# Card 1 - Users #}
+    <div class="bg-white shadow-lg rounded-xl p-5 flex items-center space-x-4 hover:shadow-2xl transition">
+        <div class="bg-blue-500 text-white rounded-full p-3">
+            <i class="fa-solid fa-user fa-lg"></i>
+        </div>
+        <div>
+            <p class="text-gray-500 text-sm">Users</p>
+            <p class="text-2xl font-bold">{{ usersCount }}</p>
+        </div>
+    </div>
+
+    {# Card 2 - Exhibitors #}
+    <div class="bg-white shadow-lg rounded-xl p-5 flex items-center space-x-4 hover:shadow-2xl transition">
+        <div class="bg-green-500 text-white rounded-full p-3">
+            <i class="fa-solid fa-user-tie fa-lg"></i>
+        </div>
+        <div>
+            <p class="text-gray-500 text-sm">Exhibitors</p>
+            <p class="text-2xl font-bold">{{ exhibitorsCount }}</p>
+        </div>
+    </div>
+
+    {# Card 3 - Providers #}
+    <div class="bg-white shadow-lg rounded-xl p-5 flex items-center space-x-4 hover:shadow-2xl transition">
+        <div class="bg-yellow-500 text-white rounded-full p-3">
+            <i class="fa-solid fa-briefcase fa-lg"></i>
+        </div>
+        <div>
+            <p class="text-gray-500 text-sm">Providers</p>
+            <p class="text-2xl font-bold">{{ providersCount }}</p>
+        </div>
+    </div>
+
+    {# Card 4 - Customer Requests #}
+    <div class="bg-white shadow-lg rounded-xl p-5 flex items-center space-x-4 hover:shadow-2xl transition">
+        <div class="bg-red-500 text-white rounded-full p-3">
+            <i class="fa-solid fa-book fa-lg"></i>
+        </div>
+        <div>
+            <p class="text-gray-500 text-sm">Customer Requests</p>
+            <p class="text-2xl font-bold">{{ customerRequestsCount }}</p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

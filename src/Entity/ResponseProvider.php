@@ -32,7 +32,7 @@ class ResponseProvider
     #[ORM\ManyToOne(inversedBy: 'responseProviders')]
     private ?Provider $provider = null;
 
-    #[ORM\OneToOne(inversedBy: 'responseProvider', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(inversedBy: 'responseProvider', cascade: ['persist'])]
     private ?Exhibitor $exhibitor = null;
 
     #[ORM\OneToOne(inversedBy: 'responseProvider', cascade: ['persist'])]

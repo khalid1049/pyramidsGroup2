@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\CustomerRequest;
 use App\Entity\RequestedItems;
 use App\Entity\ResponseProvider;
+use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -16,10 +17,14 @@ use Symfony\Component\Routing\Annotation\Route;
 #[AdminDashboard(routePath: '/provider-administration', routeName: 'ProviderAdministration')]
 class ProviderDashboardController extends AbstractDashboardController
 {
+    
     #[Route('/provider-administration', name: 'ProviderAdministration')]
     public function index(): Response
     {
-        return $this->render('bundles/EasyAdminBundle/views/welcome.html.twig');
+        $user = $this->getUser()->getRoles();
+
+        // dd($user->getRoles()[0]);
+        return $this->render('bundles/EasyAdminBundle/views/welcome.html.twig',compact('user'));
        
     }
 
@@ -34,12 +39,12 @@ class ProviderDashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::linkToCrud('Requested Items', 'fa-solid fa-list', RequestedItems::class);
-        yield MenuItem::linkToCrud('customer Request', 'fa-solid fa-book', CustomerRequest::class);
-        yield MenuItem::linkToCrud('Response Provider', 'fa-solid fa-reply', ResponseProvider::class);
-
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::subMenu('Stand Management', 'fa-solid fa-store')
+            ->setSubItems([
+                // MenuItem::linkToCrud('Stand', 'fa-solid fa-store', Stand::class),
+                MenuItem::linkToCrud('Customer Request', 'fa-solid fa-book', CustomerRequest::class),
+                MenuItem::linkToCrud('Response Provider', 'fa-solid fa-reply', ResponseProvider::class),
+            ]);
     }
 
     

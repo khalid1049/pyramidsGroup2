@@ -67,7 +67,7 @@ class ResponseProviderCrudController extends AbstractCrudController
         return [
 
             FormField::addTab('customerRequest Informations'),
-             FormField::addRow(),
+            FormField::addRow(),
             FormField::addColumn('col-lg-6 col-xl-6'),
             IdField::new('id')->hideOnForm(),
 
@@ -120,20 +120,17 @@ class ResponseProviderCrudController extends AbstractCrudController
             TextEditorField::new('extra')->setLabel('<i class="fa-solid fa-pen-to-square adding"></i> Extra')->hideOnIndex(),
             ImageField::new('photoStand')->setLabel('<i class="fa-solid fa-image adding"></i> Photo Stand')->setBasePath('uploads/images/')->setUploadDir('public/uploads/images/'),
 
-            
-
-
             Field::new('getProgressPercentage', 'Progress')
                 ->onlyOnDetail()
-                ->setVirtual(true) // important
+                ->onlyOnIndex()
+                ->setVirtual(true) 
                 ->formatValue(function ($value, $entity) {
-                    /** @var \App\Entity\ResponseProvider $entity */
+                   
                     $progress = $entity->getProgressPercentage();
-                    // dd($progress);
 
                     $color = $progress > 70 ? 'bg-success' : ($progress > 40 ? 'bg-warning' : 'bg-danger');
 
-                    // **return string only**
+                   
                     return sprintf(
                         '<div class="progress" style="height:20px;">
                             <div class="progress-bar %s" role="progressbar" style="width:%d%%">%d%%</div>
