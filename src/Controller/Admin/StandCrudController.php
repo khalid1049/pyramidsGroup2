@@ -36,19 +36,28 @@ class StandCrudController extends AbstractCrudController
             IdField::new('id')->onlyOnIndex(),
             TextField::new('Number')
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-hashtag adding"></i> Number')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Number'
+                            : '<i class="fa-solid fa-hashtag adding"></i> Number')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the number of stand'
             ]),
             TextField::new('size')
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-ruler-combined adding"></i> Surface')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Surface' 
+                            :'<i class="fa-solid fa-ruler-combined adding"></i> Surface')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the surface of stand'
             ]),
             NumberField::new('open_side')
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-border-all adding"></i> Open side')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Open side'
+                            :'<i class="fa-solid fa-border-all adding"></i> Open side')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the open side of stand'
             ]),
@@ -59,7 +68,10 @@ class StandCrudController extends AbstractCrudController
                 'Modulaire' => 'Modulaire',
                 'Personnalisé' => 'Personnalisé',
             ])
-                    ->setLabel('<i class="fa-solid fa-shop adding"></i> Type')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Type'
+                            :'<i class="fa-solid fa-shop adding"></i> Type')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Choose the type of stand'
             ]),
@@ -67,19 +79,28 @@ class StandCrudController extends AbstractCrudController
                     ->renderAsSwitch(false)
                     ->setColumns(4)
                     ->addCssClass('align-boolean')
-                    ->setLabel('<i class="fa-solid fa-credit-card adding"></i> Payement status')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Payement status'
+                            :'<i class="fa-solid fa-credit-card adding"></i> Payement status')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the type of stand'
             ]),
             TextField::new('price')
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-money-bill-wave adding"></i> Price')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Price'
+                            :'<i class="fa-solid fa-money-bill-wave adding"></i> Price')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Enter the price of stand'
             ]),
             AssociationField::new('exhibitor', 'Exhibitor')
                     ->setColumns(4)
-                    ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
+                    ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Exhibitor'
+                            :'<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
                     ->setFormTypeOption('attr', [
                 'placeholder' => 'Choose the Exhibitor'
             ]),

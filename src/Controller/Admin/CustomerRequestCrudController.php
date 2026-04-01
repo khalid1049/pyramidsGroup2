@@ -49,7 +49,10 @@ class CustomerRequestCrudController extends AbstractCrudController
             FormField::addColumn('col-lg-6 col-xl-6'),
            
             AssociationField::new('exhibitor')
-                ->setLabel('<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
+                ->setLabel(
+                    $pageName === Crud::PAGE_INDEX
+                    ? 'Exhibitor'
+                    :'<i class="fa-solid fa-user-tie adding"></i> Exhibitor')
                 ->setFormTypeOptions([
                     'attr' => [
                         'data-stand-url' => '/admin/stands-by-exhibitor/__id__'
@@ -60,29 +63,18 @@ class CustomerRequestCrudController extends AbstractCrudController
                     ->setLabel('Stand'),
                 
             AssociationField::new('provider')
-                        ->setLabel('<i class="fa-solid fa-briefcase adding"></i> Provider'),
-            // CollectionField::new('requestedItems')
-            //             ->setLabel('<i class="fa-solid fa-list-ul adding"></i> Requested Items')    
-            //             ->useEntryCrudForm()
-            //             ->allowAdd()
-            //             ->allowDelete()
-            FormField::addTab('Stand Informations'),
-
-            FormField::addRow(),
-            FormField::addColumn('col-lg-6 col-xl-6'),
-            NumberField::new('chair')->setLabel('<i class="fa-solid fa-chair adding"></i> Chair')->hideOnIndex(),
-            NumberField::new('tableStand')->setLabel('<i class="fa-solid fa-table adding"></i> Table Stand')->hideOnIndex(),
-            NumberField::new('spot')->setLabel('<i class="fa-solid fa-map-pin adding"></i> Spot')->hideOnIndex(),
-            NumberField::new('wallHanger')->setLabel('<i class="fa-solid fa-hanger adding"></i> Wall Hanger')->hideOnIndex(),
-            NumberField::new('shelf')->setLabel('<i class="fa-solid fa-boxes-stacked adding"></i> Shelf')->hideOnIndex(),
-            NumberField::new('electricPlug')->setLabel('<i class="fa-solid fa-plug adding"></i> Electric Plug')->hideOnIndex(),
-           
-            NumberField::new('carpet')->setLabel('<i class="fa-solid fa-carpenter assembling"></i> Carpet')->hideOnIndex(),
-             FormField::addColumn('col-lg-6 col-xl-6'),
-            NumberField::new('tribleSocket')->setLabel('<i class="fa-solid fa-plug-circle-bolt adding"></i> Trible Socket')->hideOnIndex(),
-            NumberField::new('rod')->setLabel('<i class="fa-solid fa-rod-asbestos adding"></i> Rod')->hideOnIndex(),
-            NumberField::new('sqm')->setLabel('<i class="fa-solid fa-ruler-combined adding"></i> Square Meter')->hideOnIndex(),
-            TextEditorField::new('extra')->setLabel('<i class="fa-solid fa-pen-to-square adding"></i> Extra')->hideOnIndex(),
+                        ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Provider'
+                            :'<i class="fa-solid fa-briefcase adding"></i> Provider'),
+            CollectionField::new('requestedItems')
+                        ->setLabel(
+                            $pageName === Crud::PAGE_INDEX
+                            ? 'Requested Items'
+                            :'<i class="fa-solid fa-list-ul adding"></i> Requested Items')    
+                        ->useEntryCrudForm()
+                        ->allowAdd()
+                        ->allowDelete()
         ];
     }
 
